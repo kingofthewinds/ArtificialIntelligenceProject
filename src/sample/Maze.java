@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -109,7 +110,14 @@ public class Maze {
 
         if (done) return;
 
-        circuit.add(new int[]{x,y});
+
+        for (Iterator<int[]> iterator = circuit.iterator(); iterator.hasNext();) {
+            int[] test = iterator.next();
+            if (test[0] == x && test[1] == y) {
+                iterator.remove();
+            }
+        }
+
 
     }
 
