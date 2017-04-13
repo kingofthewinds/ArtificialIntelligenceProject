@@ -37,6 +37,7 @@ public class Controller {
             //LeftLine
             Line lineW = new Line(x*scale, y*scale, x*scale, (y+1)*scale);
 
+
             //Goes down
             if (x == nextX && nextY == y+1)
             {
@@ -95,8 +96,6 @@ public class Controller {
             {
                 circuit.getChildren().add(lineW);
             }
-
-
         }
 
     }
