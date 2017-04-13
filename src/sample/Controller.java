@@ -9,12 +9,14 @@ public class Controller {
     @FXML
     Pane circuit;
 
+    int hello = 10;
 
     @FXML
     private void mouseClicked()
     {
         System.out.println("hello");
-        Rectangle x= new Rectangle(10,10,10,10);
+        hello += 10;
+        Rectangle x= new Rectangle(hello ,hello,10,10);
         circuit.getChildren().add(x);
     }
 
