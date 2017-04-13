@@ -17,7 +17,7 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        Maze m = new Maze(30);
+        Maze m = new Maze(10);
         ArrayList<int[]> contour = m.getCircuit();
         for (int n = 1 ; n < contour.size()-1; n ++) {
 
@@ -96,6 +96,17 @@ public class Controller {
             {
                 circuit.getChildren().add(lineW);
             }
+        }
+
+        circuit.getChildren().add(new Line(scale,0,2*scale,0));
+        circuit.getChildren().add(new Line(scale,0,scale,2*scale));
+        if (contour.get(1)[0] == 2)
+        {
+            circuit.getChildren().add(new Line(scale,2*scale,2*scale,2*scale));
+        }
+        else
+        {
+            circuit.getChildren().add(new Line(2*scale,scale,2*scale,2*scale));
         }
 
     }
