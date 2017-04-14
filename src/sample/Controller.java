@@ -11,8 +11,8 @@ import java.util.List;
 public class Controller {
 
     @FXML
-    Pane circuit;
-
+    Pane circuitPanel;
+    private Circuit circuit;
     public int numberOfCars = 10;
 
     private List<Car> cars;
@@ -23,6 +23,7 @@ public class Controller {
     @FXML
     private void initialize()
     {
+        this.circuit = new Circuit();
         drawCircuit();
         beginIteration();
 
@@ -98,33 +99,33 @@ public class Controller {
 
             if (lineN != null)
             {
-                circuit.getChildren().add(lineN);
+                circuitPanel.getChildren().add(lineN);
             }
             if (lineS != null)
             {
-                circuit.getChildren().add(lineS);
+                circuitPanel.getChildren().add(lineS);
             }
             if (lineE != null)
             {
-                circuit.getChildren().add(lineE);
+                circuitPanel.getChildren().add(lineE);
             }
             if (lineW != null)
             {
-                circuit.getChildren().add(lineW);
+                circuitPanel.getChildren().add(lineW);
             }
         }
 
-        circuit.getChildren().add(new Wall(scale,0,2*scale,0,1,0));
-        circuit.getChildren().add(new Wall(scale,0,scale,scale , 1,0));
-        circuit.getChildren().add(new Wall(scale,scale,scale,2*scale, 1,1));
+        circuitPanel.getChildren().add(new Wall(scale,0,2*scale,0,1,0));
+        circuitPanel.getChildren().add(new Wall(scale,0,scale,scale , 1,0));
+        circuitPanel.getChildren().add(new Wall(scale,scale,scale,2*scale, 1,1));
         if (contour.get(1)[0] == 2)
         {
-            circuit.getChildren().add(new Wall(scale,2*scale,2*scale,2*scale, 1,1));
+            circuitPanel.getChildren().add(new Wall(scale,2*scale,2*scale,2*scale, 1,1));
         }
         else {
-            circuit.getChildren().add(new Wall(2 * scale, scale, 2 * scale, 2 * scale, 1, 1));
+            circuitPanel.getChildren().add(new Wall(2 * scale, scale, 2 * scale, 2 * scale, 1, 1));
         }
-        for (Node w : circuit.getChildren())
+        for (Node w : circuitPanel.getChildren())
         {
             walls.add((Wall) w);
         }
@@ -133,9 +134,9 @@ public class Controller {
     private void beginIteration() {
         this.cars = new ArrayList<>();
         for (int i=0; i<numberOfCars; i++) {
-            Car car = new Car(1*scale+scale/2,1*scale+scale/2, 0, scale, this);
+            Car car = new Car(1*scale+scale/2,scale/2, 0, scale, this);
             this.cars.add(car);
-            circuit.getChildren().add(car);
+            circuitPanel.getChildren().add(car);
         }
 
         new Thread(new Runnable() {
@@ -167,14 +168,14 @@ public class Controller {
 
     public void showCars() {
         for (int i=0; i<this.cars.size(); i++) {
-            circuit.getChildren().add(cars.get(i));
+            circuitPanel.getChildren().add(cars.get(i));
         }
     }
 
 
     public void clearCars() {
         for (int i=0; i<this.cars.size(); i++) {
-            circuit.getChildren().remove(cars.get(i));
+            circuitPanel.getChildren().remove(cars.get(i));
         }
     }
 
