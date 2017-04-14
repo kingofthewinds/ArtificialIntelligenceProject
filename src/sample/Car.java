@@ -30,7 +30,7 @@ public class Car extends Circle {
         super(x,y,scale/8);
         this.angle = angle;
         this.controller = controller;
-        this.brain = new Network(7, 2, 5);
+        this.brain = new Network(5, 2, 5);
         this.scale = scale;
         createSensors(scale);
     }
@@ -58,7 +58,16 @@ public class Car extends Circle {
             sense();
 
 
-            Matrix input = Matrix.random(7, 1);; //get sensor infos
+
+            //Matrix input = Matrix.random(5, 1);; //get sensor infos
+            Matrix input = new Matrix(new double[][] {
+                    {forward.getDistance()},
+                    {forwardLeft.getDistance()},
+                    {forwardRight.getDistance()},
+                    {left.getDistance()},
+                    {right.getDistance()}
+            }); //get sensor infos
+            //input.show();
             Matrix output= this.brain.evaluate(input); // Output is a 1x2 matrix
             double distToTravel = output.get(0);
             double angle = (output.get(1) * 2)-1; // rebase angle between -1 and 1
