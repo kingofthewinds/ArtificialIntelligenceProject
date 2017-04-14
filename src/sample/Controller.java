@@ -13,7 +13,7 @@ public class Controller {
     Pane circuitPanel;
     private Circuit circuit;
     private GeneticAlgorithm genetic;
-    public int numberOfCars = 10;
+    public int numberOfCars = 200;
 
     public List<Car> cars;
     double scale = 90;

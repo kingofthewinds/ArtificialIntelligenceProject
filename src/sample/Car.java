@@ -97,6 +97,10 @@ public class Car extends Circle {
             if (walls.get(i).collide(this)) {
                 this.setFill(Color.RED);
                 this.setOpacity(0.1);
+                for (Sensor s : this.getSensors())
+                {
+                    s.setOpacity(0);
+                }
                 return true;
             }
         }
