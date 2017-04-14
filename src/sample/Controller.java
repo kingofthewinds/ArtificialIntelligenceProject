@@ -41,13 +41,13 @@ public class Controller {
             int nextY = contour.get(n+1)[1];
             System.out.println(x + "; " +y );
             //Upper line
-            Line lineN = new Line(x*scale, y*scale, (x+1)*scale, y*scale);
+            Line lineN = new Wall(x*scale, y*scale, (x+1)*scale, y*scale, x,y);
             //Lower Line
-            Line lineS = new Line(x*scale, (y+1)*scale, (x+1)*scale, (y+1)*scale);
+            Line lineS = new Wall(x*scale, (y+1)*scale, (x+1)*scale, (y+1)*scale,x,y);
             //Right Line
-            Line lineE = new Line((x+1)*scale, y*scale, (x+1)*scale, (y+1)*scale);
+            Line lineE = new Wall((x+1)*scale, y*scale, (x+1)*scale, (y+1)*scale,x,y);
             //LeftLine
-            Line lineW = new Line(x*scale, y*scale, x*scale, (y+1)*scale);
+            Line lineW = new Wall(x*scale, y*scale, x*scale, (y+1)*scale,x,y);
 
 
             //Goes down
@@ -110,15 +110,16 @@ public class Controller {
             }
         }
 
-        circuit.getChildren().add(new Line(scale,0,2*scale,0));
-        circuit.getChildren().add(new Line(scale,0,scale,2*scale));
+        circuit.getChildren().add(new Wall(scale,0,2*scale,0,1,0));
+        circuit.getChildren().add(new Wall(scale,0,scale,scale , 1,0));
+        circuit.getChildren().add(new Wall(scale,scale,scale,2*scale, 1,1));
         if (contour.get(1)[0] == 2)
         {
-            circuit.getChildren().add(new Line(scale,2*scale,2*scale,2*scale));
+            circuit.getChildren().add(new Wall(scale,2*scale,2*scale,2*scale, 1,1));
         }
         else
         {
-            circuit.getChildren().add(new Line(2*scale,scale,2*scale,2*scale));
+            circuit.getChildren().add(new Wall(2*scale,scale,2*scale,2*scale,1,1));
         }
     }
 
@@ -133,7 +134,7 @@ public class Controller {
                     try {
                         Platform.runLater(() -> {circuit.getChildren().remove(car);});
 
-                        car.move(10);
+                        car.tick();
                         //car.move(10);
                         Platform.runLater(() -> {circuit.getChildren().add(car);});
                         Thread.sleep(100);
