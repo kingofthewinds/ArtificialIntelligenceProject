@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseEvent;
@@ -27,6 +28,9 @@ public class Controller {
 
     @FXML
     Spinner spinner;
+
+    @FXML
+    CheckBox showBars;
 
     private Circuit circuit;
     private GeneticAlgorithm genetic;
@@ -159,9 +163,10 @@ public class Controller {
 
         for (Car car : this.cars) {
             circuitPanel.getChildren().add(car);
-            for (Sensor sensor : car.getSensors())
-            {
-                circuitPanel.getChildren().add(sensor);
+            if (showBars.isSelected()) {
+                for (Sensor sensor : car.getSensors()) {
+                    circuitPanel.getChildren().add(sensor);
+                }
             }
         }
 
@@ -221,15 +226,10 @@ public class Controller {
     @FXML
     private void mouseClickedNewIteration()
     {
-        for (Car car : this.cars) {
-            circuitPanel.getChildren().remove(car);
-            for (Sensor sensor : car.getSensors())
-            {
-                circuitPanel.getChildren().remove(sensor);
-            }
-        }
+        circuitPanel.getChildren().clear();
         this.cars = this.newcars;
         duration = (int)spinner.getValue();
+        drawCircuit();
         beginIteration();
 
     }
