@@ -31,8 +31,8 @@ public class Car {
     }
 
     private void move(double distance) {
-        double dx = Math.cos(distance * this.angle);
-        double dy = Math.sin(distance * this.angle);
+        double dx = distance * Math.cos(this.angle);
+        double dy = distance * Math.sin(this.angle);
 
         this.x += dx;
         this.y += dy;
