@@ -84,15 +84,17 @@ public class Controller {
     @FXML
     Label bestScore;
 
+    public int numberOfCars = 500;
+    int sizeCircuit = 14;
+    double scale = 40;
+
+
 
     private Circuit circuit;
     private GeneticAlgorithm genetic;
-    public int numberOfCars = 500;
     private int ite = 1;
     public List<Car> cars;
     public List<Car> newcars;
-    double scale = 30;
-    int sizeCircuit = 20;
     private int theBestScore = 0;
     private int bestPilot = 0;
     ArrayList<Wall> walls = new ArrayList<>();
