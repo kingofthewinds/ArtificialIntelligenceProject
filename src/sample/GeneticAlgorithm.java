@@ -41,6 +41,7 @@ public class GeneticAlgorithm {
         List<Network> newPopulation = new ArrayList<>();
 
         Network bestDude = this.population.get(0);
+        mutate(bestDude);
         newPopulation.add(bestDude); // Keep best car
 
         for (int i = 0; i < population.size(); i++) {
@@ -84,17 +85,21 @@ public class GeneticAlgorithm {
 
         Matrix weightsHiddenParent1 = parent1.getWeightsHiddenLayer();
         Matrix weightsHiddenParent2 = parent2.getWeightsHiddenLayer();
+
         int MHidden = weightsHiddenParent1.M; // Parent1 and parent2 have the same size
         int NHidden = weightsHiddenParent1.N;
+
         Matrix weightsHiddenBaby1 = new Matrix(MHidden,NHidden);
         Matrix weightsHiddenBaby2 = new Matrix(MHidden,NHidden);
+
         crossOver(weightsHiddenParent1, weightsHiddenParent2, weightsHiddenBaby1, weightsHiddenBaby2);
 
         Matrix weightsOutputParent1 = parent1.getWeightsOutputLayer();
         Matrix weightsOutputParent2 = parent2.getWeightsOutputLayer();
 
-        int MOutput = weightsHiddenParent1.M; // Parent1 and parent2 have the same size
-        int NOutput = weightsHiddenParent1.N;
+        int MOutput = weightsOutputParent1.M; // Parent1 and parent2 have the same size
+        int NOutput = weightsOutputParent1.N;
+
         Matrix weightsOutputBaby1 = new Matrix(MOutput,NOutput);
         Matrix weightsOutputBaby2 = new Matrix(MOutput,NOutput);
         crossOver(weightsOutputParent1, weightsOutputParent2, weightsOutputBaby1, weightsOutputBaby2);
@@ -119,8 +124,12 @@ public class GeneticAlgorithm {
                 baby2.set(i,j, m2.get(i,j));
             }
             for (int j = crossPoint; j < N; j++) {
-                baby1.set(i,j, m2.get(i, j));
-                baby2.set(i,j, m1.get(i,j));
+                try {
+                    baby1.set(i, j, m2.get(i, j));
+                    baby2.set(i, j, m1.get(i, j));
+                }catch (Exception e){
+                    System.out.print("");
+                }
             }
         }
 

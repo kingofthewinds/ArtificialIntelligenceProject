@@ -17,7 +17,7 @@ import java.util.List;
 public class Controller {
 
     private int tickDuration = 10;
-    private int duration = 20;
+    private int duration = 10;
 
     @FXML
     Button newIterationButton;
@@ -30,7 +30,7 @@ public class Controller {
 
     private Circuit circuit;
     private GeneticAlgorithm genetic;
-    public int numberOfCars = 500;
+    public int numberOfCars = 50;
 
     public List<Car> cars;
     public List<Car> newcars;
