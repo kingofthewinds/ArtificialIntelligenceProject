@@ -6,13 +6,14 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
 
     @FXML
     Pane circuit;
 
-    Car car;
+    private List<Car> cars;
     double scale = 90;
     ArrayList<Wall> walls = new ArrayList<>();
 
@@ -128,19 +129,23 @@ public class Controller {
     }
 
     private void beginIteration() {
-        this.car = new Car(1*scale+scale/2,1*scale+scale/2, 0, scale);
-        circuit.getChildren().add(car);
+        this.cars = new ArrayList<>();
+        for (int i=0; i<15; i++) {
+            Car car = new Car(1*scale+scale/2,1*scale+scale/2, 0, scale);
+            this.cars.add(car);
+            circuit.getChildren().add(car);
+        }
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while(true){
                     try {
-                        Platform.runLater(() -> {circuit.getChildren().remove(car);});
+                        Platform.runLater(() -> {clearCars();});
 
-                        car.tick();
+                        tick();
                         //car.move(10);
-                        Platform.runLater(() -> {circuit.getChildren().add(car);});
+                        Platform.runLater(() -> {showCars();});
                         Thread.sleep(100);
 
                     } catch (InterruptedException e) {
@@ -149,8 +154,25 @@ public class Controller {
                 }
             }
         }).start();
+    }
+
+    private void tick() {
+        for (int i=0; i<this.cars.size(); i++) {
+            cars.get(i).tick();
+        }
+    }
+
+    public void showCars() {
+        for (int i=0; i<this.cars.size(); i++) {
+            circuit.getChildren().add(cars.get(i));
+        }
+    }
 
 
+    public void clearCars() {
+        for (int i=0; i<this.cars.size(); i++) {
+            circuit.getChildren().remove(cars.get(i));
+        }
     }
 
     @FXML
