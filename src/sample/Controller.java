@@ -158,6 +158,7 @@ public class Controller {
 
     private void tick() {
         for (int i=0; i<this.cars.size(); i++) {
+
             cars.get(i).tick();
         }
     }

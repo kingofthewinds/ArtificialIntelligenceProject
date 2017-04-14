@@ -2,6 +2,8 @@ package sample;
 
 import javafx.scene.shape.Circle;
 
+import java.util.ArrayList;
+
 /**
  * Created by lucas on 13/04/17.
  */
@@ -11,6 +13,7 @@ public class Car extends Circle {
     private double y;
     private double angle;
     private Network brain;
+    private boolean crashed = false;
     private static final double maxSpeed = 10;
     private static final double maxTurn = Math.PI/4;
 
@@ -25,13 +28,25 @@ public class Car extends Circle {
     }
 
     public void tick() {
-        Matrix input = Matrix.random(7, 1);; //get sensor infos
-        Matrix output= this.brain.evaluate(input); // Output is a 1x2 matrix
-        double distToTravel = output.get(0);
-        double angle = (output.get(1) * 2)-1; // rebase angle between -1 and 1
-        this.move(distToTravel * this.maxSpeed);
-        this.turn(angle * this.maxTurn);
+        if (!crashed) {
+            Matrix input = Matrix.random(7, 1);; //get sensor infos
+            Matrix output= this.brain.evaluate(input); // Output is a 1x2 matrix
+            double distToTravel = output.get(0);
+            double angle = (output.get(1) * 2)-1; // rebase angle between -1 and 1
+            this.move(distToTravel * this.maxSpeed);
+            this.turn(angle * this.maxTurn);
+        }
+        this.crashed = this.checkCrash();
+    }
 
+    private boolean checkCrash() {
+        ArrayList<Wall> walls;
+        for (int i = 0; i < walls.size(); i++) {
+            if (walls.get(i).collide(this)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void move(double distance) {

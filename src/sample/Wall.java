@@ -17,6 +17,11 @@ public class Wall extends Line {
 
     }
 
+    public boolean collide(Car car) {
+
+        return this.getBoundsInParent().intersects(car.getBoundsInParent());
+    }
+
 
     public int getRow() {
         return row;
