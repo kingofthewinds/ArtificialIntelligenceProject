@@ -13,6 +13,8 @@ public class Controller {
     @FXML
     Pane circuit;
 
+    public int numberOfCars = 10;
+
     private List<Car> cars;
     double scale = 90;
     ArrayList<Wall> walls = new ArrayList<>();
@@ -130,8 +132,8 @@ public class Controller {
 
     private void beginIteration() {
         this.cars = new ArrayList<>();
-        for (int i=0; i<15; i++) {
-            Car car = new Car(1*scale+scale/2,1*scale+scale/2, 0, scale);
+        for (int i=0; i<numberOfCars; i++) {
+            Car car = new Car(1*scale+scale/2,1*scale+scale/2, 0, scale, this);
             this.cars.add(car);
             circuit.getChildren().add(car);
         }
@@ -182,8 +184,10 @@ public class Controller {
         System.out.println("hello");
     }
 
-    public ArrayList<Wall> getWallsInPerimeters(int x, int y)
+    public ArrayList<Wall> getWallsInPerimeters(double xd, double yd)
     {
+        int x = (int)(xd / scale);
+        int y = (int)(yd / scale);
         ArrayList<Wall> interestingWalls = new ArrayList<>();
         for (Wall w : walls)
         {

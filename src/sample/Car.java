@@ -9,8 +9,13 @@ import java.util.ArrayList;
  */
 public class Car extends Circle {
 
-    private double x;
-    private double y;
+    private Sensor forward;
+    private Sensor forwardLeft;
+    private Sensor forwardRight;
+    private Sensor left;
+    private Sensor right;
+
+    private Controller controller;
     private double angle;
     private Network brain;
     private boolean crashed = false;
@@ -19,16 +24,16 @@ public class Car extends Circle {
 
             ;
 
-    public Car(double x, double y, double angle,double scale) {
+    public Car(double x, double y, double angle,double scale, Controller controller) {
         super(x,y,scale/4);
-        this.x = x;
-        this.y = y;
         this.angle = angle;
+        this.controller = controller;
         this.brain = new Network(7, 2, 5);
     }
 
     public void tick() {
         if (!crashed) {
+            updateSensors();
             Matrix input = Matrix.random(7, 1);; //get sensor infos
             Matrix output= this.brain.evaluate(input); // Output is a 1x2 matrix
             double distToTravel = output.get(0);
@@ -39,8 +44,11 @@ public class Car extends Circle {
         this.crashed = this.checkCrash();
     }
 
+    private void updateSensors() {
+    }
+
     private boolean checkCrash() {
-        ArrayList<Wall> walls;
+        ArrayList<Wall> walls = controller.getWallsInPerimeters(getCenterX(),getCenterY());
         for (int i = 0; i < walls.size(); i++) {
             if (walls.get(i).collide(this)) {
                 return true;
@@ -52,11 +60,10 @@ public class Car extends Circle {
     public void move(double distance) {
         double dx = distance * Math.cos(this.angle);
         double dy = distance * Math.sin(this.angle);
-        this.x += dx;
-        this.y += dy;
 
-        this.setCenterX(this.x);
-        this.setCenterY(this.y);
+
+        this.setCenterX(this.getCenterX()+dx);
+        this.setCenterY(this.getCenterY()+dy);
     }
 
     public void turn(double angle) {
