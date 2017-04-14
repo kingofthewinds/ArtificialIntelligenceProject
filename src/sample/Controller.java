@@ -25,6 +25,9 @@ public class Controller {
     Button newIterationButton;
 
     @FXML
+    ProgressBar progressBar;
+
+    @FXML
     Pane circuitPanel;
 
     @FXML
@@ -261,16 +264,16 @@ public class Controller {
                             });
                             iteration.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
                             iteration.setText("Iteration : " + ite);
-                            car1.setText("Number 1 : " + cars.get(0).score + "\navg speed : " + (int)(100*cars.get(0).getAverageSpeed(time)));
-                            car2.setText("Number 2 : " + cars.get(1).score + "\navg speed : " + (int)(100*cars.get(1).getAverageSpeed(time)));
-                            car3.setText("Number 3 : " + cars.get(2).score + "\navg speed : " + (int)(100*cars.get(2).getAverageSpeed(time)));
-                            car4.setText("Number 4 : " + cars.get(3).score + "\navg speed : " + (int)(100*cars.get(3).getAverageSpeed(time)));
-                            car5.setText("Number 5 : " + cars.get(4).score + "\navg speed : " + (int)(100*cars.get(4).getAverageSpeed(time)));
-                            car6.setText("Number 6 : " + cars.get(5).score + "\navg speed : " + (int)(100*cars.get(5).getAverageSpeed(time)));
-                            car7.setText("Number 7 : " + cars.get(6).score + "\navg speed : " + (int)(100*cars.get(6).getAverageSpeed(time)));
-                            car8.setText("Number 8 : " + cars.get(7).score + "\navg speed : " + (int)(100*cars.get(7).getAverageSpeed(time)));
-                            car9.setText("Number 9 : " + cars.get(8).score + "\navg speed : " + (int)(100*cars.get(8).getAverageSpeed(time)));
-                            car10.setText("Number 10 : " + cars.get(9).score + "\navg speed : " + (int)(100*cars.get(9).getAverageSpeed(time)));
+                            car1.setText("Pilot n°1 : " + cars.get(0).score + "\navg speed : " + (int)(100*cars.get(0).getAverageSpeed(time)) + "\n");
+                            car2.setText("Pilot n°2 : " + cars.get(1).score);
+                            car3.setText("Pilot n°3 : " + cars.get(2).score);
+                            car4.setText("Pilot n°4 : " + cars.get(3).score);
+                            car5.setText("Pilot n°5 : " + cars.get(4).score);
+                            car6.setText("Pilot n°6 : " + cars.get(5).score);
+                            car7.setText("Pilot n°7 : " + cars.get(6).score);
+                            car8.setText("Pilot n°8 : " + cars.get(7).score);
+                            car9.setText("Pilot n°9 : " + cars.get(8).score);
+                            car10.setText("Pilot n°10 : " + cars.get(9).score);
                             cartotal.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
                             cartotal.setText("Total score : \n" + score);
                             bestScore.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
@@ -283,6 +286,7 @@ public class Controller {
                         });
 
                         time += tickDuration;
+                        progressBar.setProgress((double)time/(duration*1000));
                         Thread.sleep(tickDuration);
 
                         if (time >= duration*1000) {
@@ -341,13 +345,7 @@ public class Controller {
 
     }
 
-    @FXML
-    private void mouseClickedRunFaster(MouseEvent event)
-    {
-        Slider slider = (Slider) event.getSource();
-        this.tickDuration = (int)slider.getValue();
 
-    }
 
 
     public ArrayList<Wall> getWallsInPerimeters(double xd, double yd)

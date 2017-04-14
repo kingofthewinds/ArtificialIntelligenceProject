@@ -35,7 +35,7 @@ public class Car extends Circle {
         super(x,y,scale/8);
         this.angle = angle;
         this.controller = controller;
-        this.brain = new Network(5, 2, 10);
+        this.brain = new Network(5, 2, 5);
         this.scale = scale;
         maxSpeed = scale/8;
         createSensors(scale);
