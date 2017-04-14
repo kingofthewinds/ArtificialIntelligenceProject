@@ -2,8 +2,8 @@ package sample;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 
@@ -14,6 +14,7 @@ public class Controller {
 
     Car car;
     double scale = 90;
+    ArrayList<Wall> walls = new ArrayList<>();
 
 
     @FXML
@@ -41,13 +42,13 @@ public class Controller {
             int nextY = contour.get(n+1)[1];
             System.out.println(x + "; " +y );
             //Upper line
-            Line lineN = new Wall(x*scale, y*scale, (x+1)*scale, y*scale, x,y);
+            Wall lineN = new Wall(x*scale, y*scale, (x+1)*scale, y*scale, x,y);
             //Lower Line
-            Line lineS = new Wall(x*scale, (y+1)*scale, (x+1)*scale, (y+1)*scale,x,y);
+            Wall lineS = new Wall(x*scale, (y+1)*scale, (x+1)*scale, (y+1)*scale,x,y);
             //Right Line
-            Line lineE = new Wall((x+1)*scale, y*scale, (x+1)*scale, (y+1)*scale,x,y);
+            Wall lineE = new Wall((x+1)*scale, y*scale, (x+1)*scale, (y+1)*scale,x,y);
             //LeftLine
-            Line lineW = new Wall(x*scale, y*scale, x*scale, (y+1)*scale,x,y);
+            Wall lineW = new Wall(x*scale, y*scale, x*scale, (y+1)*scale,x,y);
 
 
             //Goes down
@@ -117,9 +118,12 @@ public class Controller {
         {
             circuit.getChildren().add(new Wall(scale,2*scale,2*scale,2*scale, 1,1));
         }
-        else
+        else {
+            circuit.getChildren().add(new Wall(2 * scale, scale, 2 * scale, 2 * scale, 1, 1));
+        }
+        for (Node w : circuit.getChildren())
         {
-            circuit.getChildren().add(new Wall(2*scale,scale,2*scale,2*scale,1,1));
+            walls.add((Wall) w);
         }
     }
 
@@ -155,7 +159,21 @@ public class Controller {
         System.out.println("hello");
     }
 
+    public ArrayList<Wall> getWallsInPerimeters(int x, int y)
+    {
+        ArrayList<Wall> interestingWalls = new ArrayList<>();
+        for (Wall w : walls)
+        {
+            double wallX = w.getCol();
+            double wallY = w.getRow();
+            if (Math.abs(wallX-x) <= 2 && Math.abs(wallY-y) <= 2)
+            {
+                interestingWalls.add(w);
+            }
+        }
 
+        return interestingWalls;
+    }
 
 
 
