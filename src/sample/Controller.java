@@ -13,7 +13,7 @@ public class Controller {
     Pane circuitPanel;
     private Circuit circuit;
     private GeneticAlgorithm genetic;
-    public int numberOfCars = 1;
+    public int numberOfCars = 10;
 
     public List<Car> cars;
     double scale = 90;
@@ -151,7 +151,7 @@ public class Controller {
 
             int time = 0; // in milli seconds
             int tps = 10;
-            int duration = 8; // in seconds
+            int duration = 100; // in seconds
             @Override
             public void run() {
                 while(true){

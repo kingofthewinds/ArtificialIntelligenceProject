@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 
@@ -94,6 +95,8 @@ public class Car extends Circle {
         ArrayList<Wall> walls = controller.getWallsInPerimeters(getCenterX(),getCenterY());
         for (int i = 0; i < walls.size(); i++) {
             if (walls.get(i).collide(this)) {
+                this.setFill(Color.RED);
+                this.setOpacity(0.1);
                 return true;
             }
         }
