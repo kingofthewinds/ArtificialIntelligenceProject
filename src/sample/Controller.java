@@ -15,7 +15,7 @@ public class Controller {
     private GeneticAlgorithm genetic;
     public int numberOfCars = 1;
 
-    private List<Car> cars;
+    public List<Car> cars;
     double scale = 90;
     ArrayList<Wall> walls = new ArrayList<>();
 
@@ -136,10 +136,10 @@ public class Controller {
     }
 
     private void beginIteration() {
-        this.cars = new ArrayList<>();
-        for (int i=0; i<numberOfCars; i++) {
-            Car car = new Car(1*scale+scale/2,scale/2, 0, scale, this);
-            this.cars.add(car);
+
+        this.cars = genetic.generateNewPopulation(numberOfCars, scale, this);
+
+        for (Car car : this.cars) {
             circuitPanel.getChildren().add(car);
             for (Sensor sensor : car.getSensors())
             {
@@ -149,9 +149,9 @@ public class Controller {
 
         new Thread(new Runnable() {
 
-            int time = 0;
+            int time = 0; // in milli seconds
             int tps = 10;
-            int duration = 0;
+            int duration = 8; // in seconds
             @Override
             public void run() {
                 while(true){
@@ -166,17 +166,22 @@ public class Controller {
                         time += dt;
                         Thread.sleep(dt);
 
-                        if (time == duration) {
-                            genetic.breedPopulation(cars);
+                        if (time == duration*1000) {
+                            break;
                         }
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                stopIteration();
             }
         }).start();
 
+    }
+
+    public void stopIteration() {
+        genetic.breedPopulation(this.cars);
     }
 
     private void tick() {
