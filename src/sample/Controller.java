@@ -11,8 +11,9 @@ public class Controller {
 
     @FXML
     Pane circuitPanel;
-    //private Circuit circuit;
-    public int numberOfCars = 15;
+    private Circuit circuit;
+    private GeneticAlgorithm genetic;
+    public int numberOfCars = 10;
 
     private List<Car> cars;
     double scale = 90;
@@ -22,7 +23,8 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        //this.circuit = new Circuit();
+        this.genetic = new GeneticAlgorithm();
+        this.circuit = new Circuit(scale);
         drawCircuit();
         beginIteration();
 
@@ -36,13 +38,15 @@ public class Controller {
         Maze m = new Maze(5);
         ArrayList<int[]> contour = m.getCircuit();
         for (int n = 1 ; n < contour.size()-1; n ++) {
-
             int prevX = contour.get(n-1)[0];
             int prevY = contour.get(n-1)[1];
             int x = contour.get(n)[0];
             int y = contour.get(n)[1];
             int nextX = contour.get(n+1)[0];
             int nextY = contour.get(n+1)[1];
+
+            circuit.setBlock(x, y);
+
             System.out.println(x + "; " +y );
             //Upper line
             Wall lineN = new Wall(x*scale, y*scale, (x+1)*scale, y*scale, x,y);
@@ -144,6 +148,10 @@ public class Controller {
         }
 
         new Thread(new Runnable() {
+
+            int time = 0;
+            int tps = 10;
+            int duration = 0;
             @Override
             public void run() {
                 while(true){
@@ -154,7 +162,13 @@ public class Controller {
                         tick();
                         //car.move(10);
                         //Platform.runLater(() -> {showCars();});
-                        Thread.sleep(100);
+                        int dt = 1000/tps;
+                        time += dt;
+                        Thread.sleep(dt);
+
+                        if (time == duration) {
+                            genetic.breedPopulation(cars);
+                        }
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();

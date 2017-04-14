@@ -13,7 +13,10 @@ public class GeneticAlgorithm {
 
     }
 
-    public void breedPopulation() {
+    public void breedPopulation(List<Car> cars) {
+        for (Car car : cars) {
+            population.add(car.getNetwork());
+        }
 
     }
 

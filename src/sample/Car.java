@@ -131,4 +131,7 @@ public class Car extends Circle {
         return sensors;
     }
 
+    public Network getNetwork() {
+        return brain;
+    }
 }
