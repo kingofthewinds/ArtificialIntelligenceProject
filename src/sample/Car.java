@@ -161,6 +161,10 @@ public class Car extends Circle {
     }
 
     private void updateScore() {
+        if (controller.circuitLength == visited.size())
+        {
+            visited.clear();
+        }
         int x = (int)this.getCenterX()/(int)scale;
         int y = (int)this.getCenterY()/(int)scale;
         for (int [] visitednode : visited)
@@ -171,7 +175,7 @@ public class Car extends Circle {
             }
         }
         visited.add(new int[]{x,y});
-        this.score = visited.size();
+        this.score++;
     }
 
 

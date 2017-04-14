@@ -34,6 +34,7 @@ public class GeneticAlgorithm {
 
     public List<Car> breedPopulation(List<Car> bestCars) {
         System.out.println("Breeding");
+        population.clear();
         for (Car car : bestCars) {
             population.add(car.getNetwork());
         }

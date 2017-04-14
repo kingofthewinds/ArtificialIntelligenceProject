@@ -16,6 +16,7 @@ public class Controller {
 
     private int tickDuration = 10;
     private int duration = 10;
+    public int circuitLength;
 
     @FXML
     Button newIterationButton;
@@ -37,11 +38,11 @@ public class Controller {
 
     private Circuit circuit;
     private GeneticAlgorithm genetic;
-    public int numberOfCars = 150;
+    public int numberOfCars = 500;
 
     public List<Car> cars;
     public List<Car> newcars;
-    double scale = 90;
+    double scale = 45;
     ArrayList<Wall> walls = new ArrayList<>();
 
 
@@ -61,8 +62,9 @@ public class Controller {
 
 
     private void drawCircuit() {
-        Maze m = new Maze(5);
+        Maze m = new Maze(10);
         ArrayList<int[]> contour = m.getCircuit();
+        circuitLength = contour.size();
         for (int n = 1 ; n < contour.size()-1; n ++) {
             int prevX = contour.get(n-1)[0];
             int prevY = contour.get(n-1)[1];
