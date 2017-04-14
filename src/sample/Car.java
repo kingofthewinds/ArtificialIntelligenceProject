@@ -57,23 +57,26 @@ public class Car extends Circle {
         if (!crashed) {
             sense();
 
+
             Matrix input = Matrix.random(7, 1);; //get sensor infos
             Matrix output= this.brain.evaluate(input); // Output is a 1x2 matrix
             double distToTravel = output.get(0);
             double angle = (output.get(1) * 2)-1; // rebase angle between -1 and 1
             this.turn(angle * this.maxTurn);
             this.move(distToTravel * this.maxSpeed);
+
         }
         this.crashed = this.checkCrash();
     }
 
     private void sense() {
         ArrayList<Wall> walls = controller.getWallsInPerimeters(getCenterX(),getCenterY());
-        forward.sense(walls);
-        forwardLeft.sense(walls);
-        forwardRight.sense(walls);
-        left.sense(walls);
-        right.sense(walls);
+        System.out.println("Forward = " + forward.sense(walls));
+        System.out.println("FL = " +forwardLeft.sense(walls));
+        System.out.println("FR = " +forwardRight.sense(walls));
+        System.out.println("L = " +left.sense(walls));
+        System.out.println("R = " +right.sense(walls));
+
 
 
     }

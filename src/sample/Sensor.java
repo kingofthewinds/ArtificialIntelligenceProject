@@ -41,7 +41,7 @@ public class Sensor extends Line {
 
     public double sense(ArrayList<Wall> walls)
     {
-        double dist = Double.MAX_VALUE;
+        double dist = 1000;
         double d;
         double[] intersectPoint;
         for (Wall w : walls)

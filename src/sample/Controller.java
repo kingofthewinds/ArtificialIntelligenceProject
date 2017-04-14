@@ -13,7 +13,7 @@ public class Controller {
     Pane circuitPanel;
     private Circuit circuit;
     private GeneticAlgorithm genetic;
-    public int numberOfCars = 10;
+    public int numberOfCars = 1;
 
     private List<Car> cars;
     double scale = 90;
@@ -176,6 +176,7 @@ public class Controller {
                 }
             }
         }).start();
+
     }
 
     private void tick() {
