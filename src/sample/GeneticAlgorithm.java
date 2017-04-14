@@ -142,7 +142,7 @@ public class GeneticAlgorithm {
             for (int i = 0; i<weights.M; i++) {
                 for (int j = 0; j < weights.N; j++) {
                     if (Math.random() < MUTATION_RATE) {
-                        double newValue = weights.get(i, j) + Math.random() * MAX_PERTURBATION;
+                        double newValue = weights.get(i, j) + (Math.random()*2-1) * MAX_PERTURBATION;
                         weights.set(i, j, newValue);
                     }
                 }
