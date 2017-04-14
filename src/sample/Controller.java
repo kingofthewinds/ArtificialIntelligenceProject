@@ -3,10 +3,7 @@ package sample;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
@@ -32,9 +29,15 @@ public class Controller {
     @FXML
     CheckBox showBars;
 
+    @FXML
+    Label alive;
+
+    @FXML
+    Label dead;
+
     private Circuit circuit;
     private GeneticAlgorithm genetic;
-    public int numberOfCars = 50;
+    public int numberOfCars = 150;
 
     public List<Car> cars;
     public List<Car> newcars;
@@ -180,12 +183,25 @@ public class Controller {
                         Platform.runLater(() -> {
 
                             tick();
+                            int death = 0;
+                            int living = 0;
+                            for(Car c : cars)
+                            {
+                                if (c.isCrashed()){
+                                    death++;
+                                }
+                                else {
+                                    living++;
+                                }
+                            }
+                            alive.setText("Alive = " + String.valueOf(living));
+                            dead.setText("Dead = " + String.valueOf(death));
                         });
 
                         time += tickDuration;
                         Thread.sleep(tickDuration);
 
-                        if (time == duration*1000) {
+                        if (time >= duration*1000) {
                             break;
                         }
 
@@ -227,6 +243,7 @@ public class Controller {
     private void mouseClickedNewIteration()
     {
         circuitPanel.getChildren().clear();
+        walls.clear();
         this.cars = this.newcars;
         duration = (int)spinner.getValue();
         drawCircuit();
