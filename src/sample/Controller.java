@@ -11,13 +11,13 @@ public class Controller {
     @FXML
     Pane circuit;
 
-    float scale = 20;
+    float scale = 90;
 
 
     @FXML
     private void initialize()
     {
-        Maze m = new Maze(10);
+        Maze m = new Maze(5);
         ArrayList<int[]> contour = m.getCircuit();
         for (int n = 1 ; n < contour.size()-1; n ++) {
 
