@@ -3,20 +3,37 @@ package sample;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Controller {
 
+    private int tickDuration = 10;
+    private int duration = 20;
+
+    @FXML
+    Button newIterationButton;
+
     @FXML
     Pane circuitPanel;
+
+    @FXML
+    Spinner spinner;
+
     private Circuit circuit;
     private GeneticAlgorithm genetic;
     public int numberOfCars = 500;
 
     public List<Car> cars;
+    public List<Car> newcars;
     double scale = 90;
     ArrayList<Wall> walls = new ArrayList<>();
 
@@ -24,10 +41,10 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        this.genetic = new GeneticAlgorithm(numberOfCars, scale, this);
+        this.genetic = new GeneticAlgorithm(numberOfCars,scale,this);
         this.circuit = new Circuit(scale);
         drawCircuit();
-
+        this.cars = genetic.generateNewPopulation(numberOfCars, scale, this);
         beginIteration();
 
 
@@ -138,8 +155,7 @@ public class Controller {
     }
 
     private void beginIteration() {
-
-        this.cars = genetic.generateNewPopulation(numberOfCars, scale, this);
+        newIterationButton.setDisable(true);
 
         for (Car car : this.cars) {
             circuitPanel.getChildren().add(car);
@@ -152,8 +168,6 @@ public class Controller {
         new Thread(new Runnable() {
 
             int time = 0; // in milli seconds
-            int tps = 100;
-            int duration = 200; // in seconds
             @Override
             public void run() {
                 while(true){
@@ -163,9 +177,8 @@ public class Controller {
                             tick();
                         });
 
-                        int dt = 1000/tps;
-                        time += dt;
-                        Thread.sleep(dt);
+                        time += tickDuration;
+                        Thread.sleep(tickDuration);
 
                         if (time == duration*1000) {
                             break;
@@ -182,7 +195,20 @@ public class Controller {
     }
 
     public void stopIteration() {
-        genetic.breedPopulation(this.cars);
+        this.newcars = genetic.breedPopulation(calculateBestCars());
+        newIterationButton.setDisable(false);
+
+    }
+
+    private ArrayList<Car> calculateBestCars() {
+        Collections.sort(this.cars, new Comparator<Car>() {
+            @Override
+            public int compare(Car o1, Car o2) {
+                return o2.score - o1.score;
+            }
+        });
+
+        return new ArrayList(this.cars.subList(0,(int)numberOfCars/20));
     }
 
     private void tick() {
@@ -193,10 +219,29 @@ public class Controller {
     }
 
     @FXML
-    private void mouseClicked()
+    private void mouseClickedNewIteration()
     {
-        System.out.println("hello");
+        for (Car car : this.cars) {
+            circuitPanel.getChildren().remove(car);
+            for (Sensor sensor : car.getSensors())
+            {
+                circuitPanel.getChildren().remove(sensor);
+            }
+        }
+        this.cars = this.newcars;
+        duration = (int)spinner.getValue();
+        beginIteration();
+
     }
+
+    @FXML
+    private void mouseClickedRunFaster(MouseEvent event)
+    {
+        Slider slider = (Slider) event.getSource();
+        this.tickDuration = (int)slider.getValue();
+
+    }
+
 
     public ArrayList<Wall> getWallsInPerimeters(double xd, double yd)
     {
