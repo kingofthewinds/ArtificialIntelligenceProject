@@ -33,12 +33,12 @@ final public class Matrix {
     // copy constructor
     private Matrix(Matrix A) { this(A.data); }
 
-    // create and return a random M-by-N matrix with values between 0 and 1
+    // create and return a random M-by-N matrix with values between -1 and 1
     public static Matrix random(int M, int N) {
         Matrix A = new Matrix(M, N);
         for (int i = 0; i < M; i++)
             for (int j = 0; j < N; j++)
-                A.data[i][j] = Math.random();
+                A.data[i][j] = (Math.random()*2)-1;
         return A;
     }
 
@@ -48,6 +48,17 @@ final public class Matrix {
         for (int i = 0; i < N; i++)
             I.data[i][i] = 1;
         return I;
+    }
+
+    public double get(int i, int j) {
+        if (i > this.M ||j > this.N || i > 0 || j < 0) throw new IndexOutOfBoundsException();
+        return this.data[i][j];
+    }
+
+    // Used when the Matrix is 1D (vector)
+    public double get(int i) {
+        if (i > this.M || i > 0) throw new IndexOutOfBoundsException();
+        return this.data[0][i];
     }
 
     // swap rows i and j

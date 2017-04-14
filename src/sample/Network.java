@@ -8,9 +8,15 @@ public class Network {
     Matrix weightsHiddenLayer;
     Matrix weightsOutputLayer;
 
-    public Network(double[][] output, double[][] weightsHiddenLayer, double[][] weightsOutputLayer) {
+    public Network(double[][] weightsHiddenLayer, double[][] weightsOutputLayer) {
         this.weightsHiddenLayer = new Matrix(weightsHiddenLayer);
         this.weightsOutputLayer = new Matrix(weightsOutputLayer);
+    }
+
+    public Network(int nbrInput, int nbrOutput, int nbrHiddenNeurons) {
+        this.weightsHiddenLayer = Matrix.random(nbrHiddenNeurons, nbrInput);
+        this.weightsOutputLayer = Matrix.random(nbrOutput, nbrHiddenNeurons);
+
     }
 
     public Matrix evaluate(Matrix input) {
