@@ -11,10 +11,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <center>
-      <Pane fx:id="circuitPanel" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="circuitPanel" prefHeight="566.0" prefWidth="635.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -31,6 +32,8 @@
                </valueFactory>
             </Spinner>
             <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="34.0" />
+            <CheckBox fx:id="autorun" mnemonicParsing="false" prefHeight="32.0" prefWidth="131.0" selected="true" text="Auto run" />
+            <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="34.0" />
             <CheckBox fx:id="showBars" mnemonicParsing="false" prefHeight="32.0" prefWidth="131.0" selected="true" text="Show Sensors" />
             <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="34.0" />
             <Slider max="1000.0" min="5.0" onMouseReleased="#mouseClickedRunFaster" prefHeight="33.0" prefWidth="133.0" />
@@ -39,4 +42,23 @@
          </children>
       </HBox>
    </bottom>
+   <right>
+      <VBox prefHeight="566.0" prefWidth="169.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="iteration" prefHeight="63.0" prefWidth="171.0" text="Label" />
+            <Label fx:id="car1" prefHeight="39.0" prefWidth="170.0" text="Label" />
+            <Label fx:id="car2" prefHeight="39.0" prefWidth="178.0" text="Label" />
+            <Label fx:id="car3" prefHeight="39.0" prefWidth="170.0" text="Label" />
+            <Label fx:id="car4" prefHeight="39.0" prefWidth="171.0" text="Label" />
+            <Label fx:id="car5" prefHeight="39.0" prefWidth="173.0" text="Label" />
+            <Label fx:id="car6" prefHeight="39.0" prefWidth="198.0" text="Label" />
+            <Label fx:id="car7" prefHeight="39.0" prefWidth="201.0" text="Label" />
+            <Label fx:id="car8" prefHeight="39.0" prefWidth="209.0" text="Label" />
+            <Label fx:id="car9" prefHeight="39.0" prefWidth="215.0" text="Label" />
+            <Label fx:id="car10" prefHeight="39.0" prefWidth="246.0" text="Label" />
+            <Label fx:id="cartotal" prefHeight="39.0" prefWidth="316.0" text="Label" />
+            <Label fx:id="bestScore" prefHeight="76.0" prefWidth="169.0" text="Label" />
+         </children>
+      </VBox>
+   </right>
 </BorderPane>

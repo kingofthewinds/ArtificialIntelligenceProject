@@ -6,6 +6,9 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,24 +34,71 @@ public class Controller {
     CheckBox showBars;
 
     @FXML
+    CheckBox autorun;
+
+    @FXML
+    Label iteration;
+
+    @FXML
     Label alive;
 
     @FXML
     Label dead;
 
+    @FXML
+    Label car1;
+
+    @FXML
+    Label car2;
+
+    @FXML
+    Label car3;
+
+    @FXML
+    Label car4;
+
+    @FXML
+    Label car5;
+
+    @FXML
+    Label car6;
+
+    @FXML
+    Label car7;
+
+    @FXML
+    Label car8;
+
+    @FXML
+    Label car9;
+
+    @FXML
+    Label car10;
+
+    @FXML
+    Label cartotal;
+
+    @FXML
+    Label bestScore;
+
+
     private Circuit circuit;
     private GeneticAlgorithm genetic;
     public int numberOfCars = 500;
-
+    private int ite = 1;
     public List<Car> cars;
     public List<Car> newcars;
-    double scale = 45;
+    double scale = 25;
+    int sizeCircuit = 20;
+    private int theBestScore = 0;
+    private int bestPilot = 0;
     ArrayList<Wall> walls = new ArrayList<>();
 
 
     @FXML
     private void initialize()
     {
+        spinner.getValueFactory().setValue(10);
         this.genetic = new GeneticAlgorithm(numberOfCars,scale,this);
         this.circuit = new Circuit(scale);
         drawCircuit();
@@ -62,7 +112,7 @@ public class Controller {
 
 
     private void drawCircuit() {
-        Maze m = new Maze(10);
+        Maze m = new Maze(sizeCircuit);
         ArrayList<int[]> contour = m.getCircuit();
         circuitLength = contour.size();
         for (int n = 1 ; n < contour.size()-1; n ++) {
@@ -75,7 +125,6 @@ public class Controller {
 
             circuit.setBlock(x, y);
 
-            System.out.println(x + "; " +y );
             //Upper line
             Wall lineN = new Wall(x*scale, y*scale, (x+1)*scale, y*scale, x,y);
             //Lower Line
@@ -183,10 +232,11 @@ public class Controller {
                 while(true){
                     try {
                         Platform.runLater(() -> {
-
+                            cars.get(0).setFill(Color.BLACK);
                             tick();
                             int death = 0;
                             int living = 0;
+                            int score = 0;
                             for(Car c : cars)
                             {
                                 if (c.isCrashed()){
@@ -195,9 +245,41 @@ public class Controller {
                                 else {
                                     living++;
                                 }
+                                score += c.score;
+                                if (score > theBestScore) {
+                                    theBestScore = score;
+                                }
                             }
                             alive.setText("Alive = " + String.valueOf(living));
                             dead.setText("Dead = " + String.valueOf(death));
+
+                            Collections.sort(cars, new Comparator<Car>() {
+                                @Override
+                                public int compare(Car o1, Car o2) {
+                                    return o2.score - o1.score;
+                                }
+                            });
+                            iteration.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+                            iteration.setText("Iteration : " + ite);
+                            car1.setText("Number 1 : " + cars.get(0).score + "\navg speed : " + (int)(100*cars.get(0).getAverageSpeed(time)));
+                            car2.setText("Number 2 : " + cars.get(1).score + "\navg speed : " + (int)(100*cars.get(1).getAverageSpeed(time)));
+                            car3.setText("Number 3 : " + cars.get(2).score + "\navg speed : " + (int)(100*cars.get(2).getAverageSpeed(time)));
+                            car4.setText("Number 4 : " + cars.get(3).score + "\navg speed : " + (int)(100*cars.get(3).getAverageSpeed(time)));
+                            car5.setText("Number 5 : " + cars.get(4).score + "\navg speed : " + (int)(100*cars.get(4).getAverageSpeed(time)));
+                            car6.setText("Number 6 : " + cars.get(5).score + "\navg speed : " + (int)(100*cars.get(5).getAverageSpeed(time)));
+                            car7.setText("Number 7 : " + cars.get(6).score + "\navg speed : " + (int)(100*cars.get(6).getAverageSpeed(time)));
+                            car8.setText("Number 8 : " + cars.get(7).score + "\navg speed : " + (int)(100*cars.get(7).getAverageSpeed(time)));
+                            car9.setText("Number 9 : " + cars.get(8).score + "\navg speed : " + (int)(100*cars.get(8).getAverageSpeed(time)));
+                            car10.setText("Number 10 : " + cars.get(9).score + "\navg speed : " + (int)(100*cars.get(9).getAverageSpeed(time)));
+                            cartotal.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+                            cartotal.setText("Total score : \n" + score);
+                            bestScore.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+                            bestScore.setText("Best score : \n" + theBestScore + "\nBest Pilot : " + bestPilot);
+
+                            if (cars.get(0).score > bestPilot) {
+                                bestPilot = cars.get(0).score;
+                            }
+                            cars.get(0).setFill(Color.GREEN);
                         });
 
                         time += tickDuration;
@@ -218,8 +300,13 @@ public class Controller {
     }
 
     public void stopIteration() {
-        this.newcars = genetic.breedPopulation(calculateBestCars());
+        this.newcars = genetic.breedPopulation(calculateBestCars(),ite);
         newIterationButton.setDisable(false);
+        if (autorun.isSelected()) {
+            Platform.runLater(() -> {
+                mouseClickedNewIteration();
+            });
+        }
 
     }
 
@@ -231,7 +318,7 @@ public class Controller {
             }
         });
 
-        return new ArrayList(this.cars.subList(0,(int)numberOfCars/20));
+        return new ArrayList(this.cars.subList(0,(int)numberOfCars/20 + ite));
     }
 
     private void tick() {
@@ -248,6 +335,7 @@ public class Controller {
         walls.clear();
         this.cars = this.newcars;
         duration = (int)spinner.getValue();
+        ite++;
         drawCircuit();
         beginIteration();
 

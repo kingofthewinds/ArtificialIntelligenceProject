@@ -32,8 +32,13 @@ public class GeneticAlgorithm {
 
     }
 
-    public List<Car> breedPopulation(List<Car> bestCars) {
+    public List<Car> breedPopulation(List<Car> bestCars,int iteration) {
         System.out.println("Breeding");
+        double randomRate = (double)iteration/100;
+        if (randomRate >= 0.25)
+        {
+            randomRate = 0.25;
+        }
         population.clear();
         for (Car car : bestCars) {
             population.add(car.getNetwork());
@@ -46,7 +51,7 @@ public class GeneticAlgorithm {
         newPopulation.add(bestDude); // Keep best car
         for (int i = 0; i < population.size(); i++) {
             for (int j = i+1; j < population.size(); j++) {
-                if (newPopulation.size() < 0.75*populationSize) {
+                if (newPopulation.size() < (0.75+randomRate)*populationSize) {
                     crossBreed(population.get(i), population.get(j), newPopulation);
                 }
             }
