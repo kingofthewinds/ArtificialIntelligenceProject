@@ -8,7 +8,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <center>
-      <Pane fx:id="circuit" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="circuitPanel" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox prefWidth="600.0" BorderPane.alignment="CENTER">

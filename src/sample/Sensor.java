@@ -8,15 +8,11 @@ import java.util.ArrayList;
  * Created by kingwinds on 14/04/2017.
  */
 public class Sensor extends Line {
-    private int row;
-    private int col;
+    private double distance ;
 
 
-    public Sensor(double startX, double startY, double endX, double endY, int col, int row){
+    public Sensor(double startX, double startY, double endX, double endY){
         super(startX,startY,endX,endY);
-        this.row = row;
-        this.col = col;
-
     }
 
     public static double[] lineIntersect(Line wall, Line sensor) {
@@ -47,11 +43,11 @@ public class Sensor extends Line {
     {
         double dist = Double.MAX_VALUE;
         double d;
+        double[] intersectPoint;
         for (Wall w : walls)
         {
-            if (w.getBoundsInParent().intersects(this.getBoundsInParent()))
+            if ((intersectPoint = lineIntersect(w,this)) != null)
             {
-                double[] intersectPoint = lineIntersect(w,this);
                 d = Math.sqrt( Math.pow(intersectPoint[0]-this.getStartX(),2) + Math.pow(intersectPoint[1]-this.getStartY(),2));
                 if (d < dist)
                 {
@@ -59,22 +55,16 @@ public class Sensor extends Line {
                 }
             }
         }
+        this.distance = dist;
         return dist;
     }
 
-    public int getRow() {
-        return row;
+
+    public double getDistance() {
+        return distance;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getCol() {
-        return col;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

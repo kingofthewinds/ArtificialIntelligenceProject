@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -12,8 +11,8 @@ public class Controller {
 
     @FXML
     Pane circuitPanel;
-    private Circuit circuit;
-    public int numberOfCars = 10;
+    //private Circuit circuit;
+    public int numberOfCars = 15;
 
     private List<Car> cars;
     double scale = 90;
@@ -23,7 +22,7 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        this.circuit = new Circuit();
+        //this.circuit = new Circuit();
         drawCircuit();
         beginIteration();
 
@@ -129,6 +128,7 @@ public class Controller {
         {
             walls.add((Wall) w);
         }
+
     }
 
     private void beginIteration() {
@@ -137,6 +137,10 @@ public class Controller {
             Car car = new Car(1*scale+scale/2,scale/2, 0, scale, this);
             this.cars.add(car);
             circuitPanel.getChildren().add(car);
+            for (Sensor sensor : car.getSensors())
+            {
+                circuitPanel.getChildren().add(sensor);
+            }
         }
 
         new Thread(new Runnable() {
@@ -144,11 +148,12 @@ public class Controller {
             public void run() {
                 while(true){
                     try {
-                        Platform.runLater(() -> {clearCars();});
+                        //Platform.runLater(() -> {clearCars();});
+
 
                         tick();
                         //car.move(10);
-                        Platform.runLater(() -> {showCars();});
+                        //Platform.runLater(() -> {showCars();});
                         Thread.sleep(100);
 
                     } catch (InterruptedException e) {
@@ -168,6 +173,7 @@ public class Controller {
 
     public void showCars() {
         for (int i=0; i<this.cars.size(); i++) {
+            cars.get(i).setOpacity(0.1);
             circuitPanel.getChildren().add(cars.get(i));
         }
     }
@@ -202,6 +208,8 @@ public class Controller {
 
         return interestingWalls;
     }
+
+
 
 
 
