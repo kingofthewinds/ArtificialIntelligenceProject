@@ -81,11 +81,11 @@ public class Car extends Circle {
 
     private void sense() {
         ArrayList<Wall> walls = controller.getWallsInPerimeters(getCenterX(),getCenterY());
-        System.out.println("Forward = " + forward.sense(walls));
-        System.out.println("FL = " +forwardLeft.sense(walls));
-        System.out.println("FR = " +forwardRight.sense(walls));
-        System.out.println("L = " +left.sense(walls));
-        System.out.println("R = " +right.sense(walls));
+        forward.sense(walls);
+        forwardLeft.sense(walls);
+        forwardRight.sense(walls);
+        left.sense(walls);
+        right.sense(walls);
 
 
 

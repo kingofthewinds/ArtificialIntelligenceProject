@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -13,7 +14,7 @@ public class Controller {
     Pane circuitPanel;
     private Circuit circuit;
     private GeneticAlgorithm genetic;
-    public int numberOfCars = 200;
+    public int numberOfCars = 500;
 
     public List<Car> cars;
     double scale = 90;
@@ -156,15 +157,16 @@ public class Controller {
             public void run() {
                 while(true){
                     try {
-                        //Platform.runLater(() -> {clearCars();});
+                        Platform.runLater(() -> {
 
+                            clearCars();
+                            tick();
+                            showCars();
+                        });
 
-                        tick();
-                        //car.move(10);
-                        //Platform.runLater(() -> {showCars();});
                         int dt = 1000/tps;
                         time += dt;
-                        Thread.sleep(dt);
+                        Thread.sleep(10);
 
                         if (time == duration*1000) {
                             break;
