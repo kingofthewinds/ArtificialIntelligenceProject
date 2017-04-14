@@ -11,12 +11,23 @@ public class Controller {
     @FXML
     Pane circuit;
 
-    float scale = 90;
+    Car car;
+    double scale = 90;
 
 
     @FXML
     private void initialize()
     {
+        drawCircuit();
+        beginIteration();
+
+
+    }
+
+
+
+
+    private void drawCircuit() {
         Maze m = new Maze(5);
         ArrayList<int[]> contour = m.getCircuit();
         for (int n = 1 ; n < contour.size()-1; n ++) {
@@ -108,6 +119,30 @@ public class Controller {
         {
             circuit.getChildren().add(new Line(2*scale,scale,2*scale,2*scale));
         }
+    }
+
+    private void beginIteration() {
+        this.car = new Car(1*scale+scale/2,1*scale+scale/2, 0, scale);
+        circuit.getChildren().add(car);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    try {
+                        circuit.getChildren().remove(car);
+                        car.tick();
+                        //car.move(10);
+                        circuit.getChildren().add(car);
+                        Thread.sleep(1000);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
 
     }
 
