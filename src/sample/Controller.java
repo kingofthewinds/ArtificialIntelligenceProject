@@ -151,22 +151,20 @@ public class Controller {
         new Thread(new Runnable() {
 
             int time = 0; // in milli seconds
-            int tps = 10;
-            int duration = 100; // in seconds
+            int tps = 100;
+            int duration = 200; // in seconds
             @Override
             public void run() {
                 while(true){
                     try {
                         Platform.runLater(() -> {
 
-                            clearCars();
                             tick();
-                            showCars();
                         });
 
                         int dt = 1000/tps;
                         time += dt;
-                        Thread.sleep(10);
+                        Thread.sleep(dt);
 
                         if (time == duration*1000) {
                             break;
@@ -190,20 +188,6 @@ public class Controller {
         for (int i=0; i<this.cars.size(); i++) {
 
             cars.get(i).tick();
-        }
-    }
-
-    public void showCars() {
-        for (int i=0; i<this.cars.size(); i++) {
-            cars.get(i).setOpacity(0.1);
-            circuitPanel.getChildren().add(cars.get(i));
-        }
-    }
-
-
-    public void clearCars() {
-        for (int i=0; i<this.cars.size(); i++) {
-            circuitPanel.getChildren().remove(cars.get(i));
         }
     }
 

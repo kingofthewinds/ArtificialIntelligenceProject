@@ -26,6 +26,9 @@ public class Car extends Circle {
     private static final double maxSpeed = 5;
     private static final double maxTurn = Math.PI/4;
 
+    public ArrayList<int []> visited = new ArrayList<>();
+    int score = 0;
+
 
     public Car(double x, double y, double angle,double scale, Controller controller) {
         super(x,y,scale/8);
@@ -59,7 +62,6 @@ public class Car extends Circle {
             sense();
 
 
-
             //Matrix input = Matrix.random(5, 1);; //get sensor infos
             Matrix input = new Matrix(new double[][] {
                     {forward.getDistance()},
@@ -75,9 +77,13 @@ public class Car extends Circle {
             this.turn(angle * this.maxTurn);
             this.move(distToTravel * this.maxSpeed);
 
+
+            updateScore();
         }
         this.crashed = this.checkCrash();
     }
+
+
 
     private void sense() {
         ArrayList<Wall> walls = controller.getWallsInPerimeters(getCenterX(),getCenterY());
@@ -153,4 +159,20 @@ public class Car extends Circle {
     public Network getNetwork() {
         return brain;
     }
+
+    private void updateScore() {
+        int x = (int)this.getCenterX()/(int)scale;
+        int y = (int)this.getCenterY()/(int)scale;
+        for (int [] visitednode : visited)
+        {
+            if (visitednode[0] == x && visitednode[1] == y)
+            {
+                return;
+            }
+        }
+        visited.add(new int[]{x,y});
+        this.score = visited.size();
+    }
+
+
 }
