@@ -51,14 +51,14 @@ final public class Matrix {
     }
 
     public double get(int i, int j) {
-        if (i > this.M ||j > this.N || i > 0 || j < 0) throw new IndexOutOfBoundsException();
+        if (i > this.M ||j > this.N || i < 0 || j < 0) throw new IndexOutOfBoundsException();
         return this.data[i][j];
     }
 
     // Used when the Matrix is 1D (vector)
     public double get(int i) {
-        if (i > this.M || i > 0) throw new IndexOutOfBoundsException();
-        return this.data[0][i];
+        if (i > this.M || i < 0) throw new IndexOutOfBoundsException();
+        return this.data[i][0];
     }
 
     // swap rows i and j
