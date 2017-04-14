@@ -91,7 +91,7 @@ public class Controller {
     private int ite = 1;
     public List<Car> cars;
     public List<Car> newcars;
-    double scale = 25;
+    double scale = 30;
     int sizeCircuit = 20;
     private int theBestScore = 0;
     private int bestPilot = 0;
