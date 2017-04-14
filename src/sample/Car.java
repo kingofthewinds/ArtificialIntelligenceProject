@@ -15,7 +15,9 @@ public class Car extends Circle{
     private static final double maxTurn = Math.PI/3;
 
     public Car(double x, double y, double angle,double scale) {
-        super(x*scale,y*scale,scale/4);
+        super(x,y,scale/4);
+        this.x = x;
+        this.y = y;
         this.angle = angle;
         this.brain = new Network(7, 2, 5);
     }
@@ -34,9 +36,11 @@ public class Car extends Circle{
     public void move(double distance) {
         double dx = distance * Math.cos(this.angle);
         double dy = distance * Math.sin(this.angle);
+        this.x += dx;
+        this.y += dy;
 
-        this.setCenterX(this.x += dx);
-        this.setCenterY(this.y += dy);
+        this.setCenterX(this.x);
+        this.setCenterY(this.y);
     }
 
     public void turn(double angle) {

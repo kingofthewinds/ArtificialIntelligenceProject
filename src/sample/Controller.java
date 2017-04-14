@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -130,11 +131,12 @@ public class Controller {
             public void run() {
                 while(true){
                     try {
-                        circuit.getChildren().remove(car);
-                        car.tick();
+                        Platform.runLater(() -> {circuit.getChildren().remove(car);});
+
+                        car.move(10);
                         //car.move(10);
-                        circuit.getChildren().add(car);
-                        Thread.sleep(1000);
+                        Platform.runLater(() -> {circuit.getChildren().add(car);});
+                        Thread.sleep(100);
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
