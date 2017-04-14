@@ -27,6 +27,7 @@ public class Controller {
         this.genetic = new GeneticAlgorithm();
         this.circuit = new Circuit(scale);
         drawCircuit();
+
         beginIteration();
 
 

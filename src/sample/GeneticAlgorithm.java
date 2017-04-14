@@ -10,6 +10,9 @@ public class GeneticAlgorithm {
 
     private List<Network> population;
 
+    private static final double MUTATION_RATE = 0.15;
+    private static final double MAX_PERTURBATION = 0.3;
+
     public GeneticAlgorithm() {
         this.population = new ArrayList<>();
     }
@@ -32,16 +35,22 @@ public class GeneticAlgorithm {
 
     }
 
-    private void createNewGenome() {
-
-
-    }
 
     private void crossBreed() {
 
     }
 
-    private void mutate() {
+    private void mutate(Network brain) {
+        for (Matrix weights : brain.getWeights()) {
 
+            for (int i = 0; i<weights.M; i++) {
+                for (int j = 0; j < weights.N; j++) {
+                    if (Math.random() < MUTATION_RATE) {
+                        double newValue = weights.get(i, j) + Math.random() * MAX_PERTURBATION;
+                        weights.set(i, j, newValue);
+                    }
+                }
+            }
+        }
     }
 }

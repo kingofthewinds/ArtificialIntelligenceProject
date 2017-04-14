@@ -9,9 +9,9 @@ package sample;
  ******************************************************************************/
 
 final public class Matrix {
-    private final int M;             // number of rows
-    private final int N;             // number of columns
-    private final double[][] data;   // M-by-N array
+    public final int M;             // number of rows
+    public final int N;             // number of columns
+    public final double[][] data;   // M-by-N array
 
     // create M-by-N matrix of 0's
     public Matrix(int M, int N) {
@@ -187,6 +187,10 @@ final public class Matrix {
                 System.out.printf("%9.4f ", data[i][j]);
             System.out.println();
         }
+    }
+
+    public void set(int i, int j, double value) {
+        data[i][j] = value;
     }
 }
 

@@ -1,5 +1,8 @@
 package sample;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by lucas on 13/04/17.
  */
@@ -23,6 +26,13 @@ public class Network {
         Matrix outputHiddenLayer = this.weightsHiddenLayer.times(input).sigmoid();
         Matrix output = this.weightsOutputLayer.times(outputHiddenLayer).sigmoid();
         return output;
+    }
+
+    public List<Matrix> getWeights() {
+        ArrayList<Matrix> weights =  new ArrayList<>();
+        weights.add(this.weightsHiddenLayer);
+        weights.add(this.weightsOutputLayer);
+        return weights;
     }
 
     public Matrix getWeightsHiddenLayer() {
