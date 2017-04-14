@@ -28,6 +28,7 @@ public class Car extends Circle {
 
     public ArrayList<int []> visited = new ArrayList<>();
     int score = 0;
+    private double totalDistance = 0;
 
 
     public Car(double x, double y, double angle,double scale, Controller controller) {
@@ -114,8 +115,10 @@ public class Car extends Circle {
     }
 
     public void move(double distance) {
+        this.totalDistance += distance;
         double dx = distance * Math.cos(this.angle);
         double dy = distance * Math.sin(this.angle);
+
 
 
         this.setCenterX(this.getCenterX()+dx);
@@ -128,8 +131,10 @@ public class Car extends Circle {
             s.setEndX(s.getEndX()+dx);
             s.setEndY(s.getEndY()+dy);
         }
+    }
 
-
+    public double getAverageSpeed(int time) {
+        return this.totalDistance / time;
     }
 
     public void turn(double angle) {

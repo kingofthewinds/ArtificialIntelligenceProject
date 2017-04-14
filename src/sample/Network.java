@@ -11,10 +11,14 @@ public class Network {
     private final Matrix weightsHiddenLayer;
     private final Matrix weightsOutputLayer;
 
+
     public Network(Matrix weightsHiddenLayer, Matrix weightsOutputLayer) {
         this.weightsHiddenLayer = weightsHiddenLayer;
         this.weightsOutputLayer = weightsOutputLayer;
+
     }
+
+
 
     public Network(int nbrInput, int nbrOutput, int nbrHiddenNeurons) {
         this.weightsHiddenLayer = Matrix.random(nbrHiddenNeurons, nbrInput);

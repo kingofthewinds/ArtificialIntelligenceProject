@@ -44,12 +44,14 @@ public class GeneticAlgorithm {
         Network bestDude = this.population.get(0);
         mutate(bestDude);
         newPopulation.add(bestDude); // Keep best car
-
         for (int i = 0; i < population.size(); i++) {
             for (int j = i+1; j < population.size(); j++) {
-                crossBreed(population.get(i), population.get(j), newPopulation);
+                if (newPopulation.size() < 0.75*populationSize) {
+                    crossBreed(population.get(i), population.get(j), newPopulation);
+                }
             }
         }
+        System.out.println("Population from previous generation :" + newPopulation.size());
 
         // Add some random guys
         int MHidden = bestDude.getWeightsHiddenLayer().M;
@@ -60,6 +62,7 @@ public class GeneticAlgorithm {
         while (newPopulation.size() < populationSize) {
             newPopulation.add(generateRandomNetwork(MHidden, NHidden, MOutput, NOutput));
         }
+        System.out.println("pop " + newPopulation.size());
 
         return createCarsFromNetworks(newPopulation);
     }
@@ -77,7 +80,8 @@ public class GeneticAlgorithm {
     private Network generateRandomNetwork(int MHidden, int NHidden, int MOutput, int NOutput) {
         Matrix weightsHiddenLayer = Matrix.random(MHidden,NHidden);
         Matrix weightsOutputLayer = Matrix.random(MOutput,NOutput);
-        return new Network(weightsHiddenLayer, weightsOutputLayer);
+        Network brain = new Network(weightsHiddenLayer, weightsOutputLayer);
+        return brain;
     }
 
 
