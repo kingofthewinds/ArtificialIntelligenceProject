@@ -24,7 +24,7 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        this.genetic = new GeneticAlgorithm();
+        this.genetic = new GeneticAlgorithm(numberOfCars, scale, this);
         this.circuit = new Circuit(scale);
         drawCircuit();
 

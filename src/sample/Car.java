@@ -175,4 +175,7 @@ public class Car extends Circle {
     }
 
 
+    public void setBrain(Network brain) {
+        this.brain = brain;
+    }
 }

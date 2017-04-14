@@ -8,12 +8,12 @@ import java.util.List;
  */
 public class Network {
 
-    Matrix weightsHiddenLayer;
-    Matrix weightsOutputLayer;
+    private final Matrix weightsHiddenLayer;
+    private final Matrix weightsOutputLayer;
 
-    public Network(double[][] weightsHiddenLayer, double[][] weightsOutputLayer) {
-        this.weightsHiddenLayer = new Matrix(weightsHiddenLayer);
-        this.weightsOutputLayer = new Matrix(weightsOutputLayer);
+    public Network(Matrix weightsHiddenLayer, Matrix weightsOutputLayer) {
+        this.weightsHiddenLayer = weightsHiddenLayer;
+        this.weightsOutputLayer = weightsOutputLayer;
     }
 
     public Network(int nbrInput, int nbrOutput, int nbrHiddenNeurons) {
@@ -41,13 +41,5 @@ public class Network {
 
     public Matrix getWeightsOutputLayer() {
         return weightsOutputLayer;
-    }
-
-    public void setWeightsHiddenLayer(Matrix weightsHiddenLayer) {
-        this.weightsHiddenLayer = weightsHiddenLayer;
-    }
-
-    public void setWeightsOutputLayer(Matrix weightsOutputLayer) {
-        this.weightsOutputLayer = weightsOutputLayer;
     }
 }
