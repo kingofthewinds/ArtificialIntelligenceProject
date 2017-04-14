@@ -5,7 +5,7 @@ import javafx.scene.shape.Circle;
 /**
  * Created by lucas on 13/04/17.
  */
-public class Car extends Circle{
+public class Car extends Circle {
 
     private double x;
     private double y;
@@ -21,8 +21,9 @@ public class Car extends Circle{
     }
 
     public void tick() {
-        Matrix input = Matrix.random(2, 1);; //get sensor infos
+        Matrix input = Matrix.random(7, 1);; //get sensor infos
         Matrix output= this.brain.evaluate(input); // Output is a 1x2 matrix
+        output.show();
         double distToTravel = output.get(0);
         double angle = output.get(1);
         this.move(distToTravel * this.maxSpeed);
