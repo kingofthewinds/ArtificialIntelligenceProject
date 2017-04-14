@@ -308,6 +308,11 @@ public class Controller {
         newIterationButton.setDisable(false);
         if (autorun.isSelected()) {
             Platform.runLater(() -> {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 mouseClickedNewIteration();
             });
         }

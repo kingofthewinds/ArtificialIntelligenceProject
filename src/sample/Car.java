@@ -11,11 +11,13 @@ import java.util.ArrayList;
  */
 public class Car extends Circle {
 
-    private Sensor forward;
-    private Sensor forwardLeft;
-    private Sensor forwardRight;
-    private Sensor left;
-    private Sensor right;
+    private Sensor north;
+    private Sensor northNorthWest;
+    private Sensor northWestWest;
+    private Sensor northNorthEst;
+    private Sensor northEstEst;
+    private Sensor west;
+    private Sensor east;
     private ArrayList<Sensor> sensors = new ArrayList<>();
 
     private double scale;
@@ -35,28 +37,34 @@ public class Car extends Circle {
         super(x,y,scale/8);
         this.angle = angle;
         this.controller = controller;
-        this.brain = new Network(5, 2, 5);
+        this.brain = new Network(7, 2, 5);
         this.scale = scale;
         maxSpeed = scale/8;
         createSensors(scale);
     }
 
     private void createSensors(double scale) {
-        forward = new Sensor(getCenterX(),getCenterY(),getCenterX()+3*scale,getCenterY());
-        forward.setOpacity(0.1);
-        left = new Sensor(getCenterX(),getCenterY(),getCenterX(),getCenterY()-3*scale);
-        left.setOpacity(0.1);
-        right = new Sensor(getCenterX(),getCenterY(),getCenterX(),getCenterY()+3*scale);
-        right.setOpacity(0.1);
-        forwardRight = new Sensor(getCenterX(),getCenterY(),getCenterX()+2*scale,getCenterY()+2*scale);
-        forwardRight.setOpacity(0.1);
-        forwardLeft = new Sensor(getCenterX(),getCenterY(),getCenterX()+2*scale,getCenterY()-2*scale);
-        forwardLeft.setOpacity(0.1);
-        sensors.add(forward);
-        sensors.add(left);
-        sensors.add(right);
-        sensors.add(forwardLeft);
-        sensors.add(forwardRight);
+        north = new Sensor(getCenterX(),getCenterY(),getCenterX()+3*scale,getCenterY());
+        north.setOpacity(0.1);
+        west = new Sensor(getCenterX(),getCenterY(),getCenterX(),getCenterY()-3*scale);
+        west.setOpacity(0.1);
+        east = new Sensor(getCenterX(),getCenterY(),getCenterX(),getCenterY()+3*scale);
+        east.setOpacity(0.1);
+        northNorthEst = new Sensor(getCenterX(),getCenterY(),getCenterX()+2*scale,getCenterY()+scale);
+        northNorthEst.setOpacity(0.1);
+        northEstEst = new Sensor(getCenterX(),getCenterY(),getCenterX()+scale,getCenterY()+2*scale);
+        northEstEst.setOpacity(0.1);
+        northNorthWest = new Sensor(getCenterX(),getCenterY(),getCenterX()+2*scale,getCenterY()-scale);
+        northNorthWest.setOpacity(0.1);
+        northWestWest = new Sensor(getCenterX(),getCenterY(),getCenterX()+scale,getCenterY()-2*scale);
+        northWestWest.setOpacity(0.1);
+        sensors.add(north);
+        sensors.add(west);
+        sensors.add(east);
+        sensors.add(northNorthWest);
+        sensors.add(northNorthEst);
+        sensors.add(northEstEst);
+        sensors.add(northWestWest);
     }
 
     public void tick() {
@@ -66,11 +74,13 @@ public class Car extends Circle {
 
             //Matrix input = Matrix.random(5, 1);; //get sensor infos
             Matrix input = new Matrix(new double[][] {
-                    {forward.getDistance()},
-                    {forwardLeft.getDistance()},
-                    {forwardRight.getDistance()},
-                    {left.getDistance()},
-                    {right.getDistance()}
+                    {north.getDistance()},
+                    {northNorthWest.getDistance()},
+                    {northNorthEst.getDistance()},
+                    {west.getDistance()},
+                    {east.getDistance()},
+                    {northWestWest.getDistance()},
+                    {northEstEst.getDistance()}
             }); //get sensor infos
             //input.show();
             Matrix output= this.brain.evaluate(input); // Output is a 1x2 matrix
@@ -89,11 +99,13 @@ public class Car extends Circle {
 
     private void sense() {
         ArrayList<Wall> walls = controller.getWallsInPerimeters(getCenterX(),getCenterY());
-        forward.sense(walls);
-        forwardLeft.sense(walls);
-        forwardRight.sense(walls);
-        left.sense(walls);
-        right.sense(walls);
+        north.sense(walls);
+        northNorthWest.sense(walls);
+        northNorthEst.sense(walls);
+        west.sense(walls);
+        east.sense(walls);
+        northEstEst.sense(walls);
+        northWestWest.sense(walls);
 
 
 
