@@ -12,7 +12,9 @@ public class Car extends Circle {
     private double angle;
     private Network brain;
     private static final double maxSpeed = 10;
-    private static final double maxTurn = Math.PI/3;
+    private static final double maxTurn = Math.PI/4;
+
+            ;
 
     public Car(double x, double y, double angle,double scale) {
         super(x,y,scale/4);
@@ -25,12 +27,10 @@ public class Car extends Circle {
     public void tick() {
         Matrix input = Matrix.random(7, 1);; //get sensor infos
         Matrix output= this.brain.evaluate(input); // Output is a 1x2 matrix
-        output.show();
         double distToTravel = output.get(0);
-        double angle = output.get(1);
+        double angle = (output.get(1) * 2)-1; // rebase angle between -1 and 1
         this.move(distToTravel * this.maxSpeed);
         this.turn(angle * this.maxTurn);
-
 
     }
 
@@ -46,6 +46,7 @@ public class Car extends Circle {
 
     public void turn(double angle) {
         this.angle += angle;
+        System.out.println(this.angle);
     }
 
 }
