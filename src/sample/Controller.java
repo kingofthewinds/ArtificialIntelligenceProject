@@ -133,7 +133,7 @@ public class Controller {
                     try {
                         Platform.runLater(() -> {circuit.getChildren().remove(car);});
 
-                        car.move(10);
+                        car.tick();
                         //car.move(10);
                         Platform.runLater(() -> {circuit.getChildren().add(car);});
                         Thread.sleep(100);
