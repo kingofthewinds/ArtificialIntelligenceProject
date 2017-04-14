@@ -22,7 +22,8 @@ public class GeneticAlgorithm {
     }
 
     private void createNewGenome() {
-        
+
+
     }
 
     private void crossBreed() {
