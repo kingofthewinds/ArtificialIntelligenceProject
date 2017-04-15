@@ -31,7 +31,7 @@ final public class Matrix {
     }
 
     // copy constructor
-    private Matrix(Matrix A) { this(A.data); }
+    public Matrix(Matrix A) { this(A.data); }
 
     // create and return a random M-by-N matrix with values between -1 and 1
     public static Matrix random(int M, int N) {

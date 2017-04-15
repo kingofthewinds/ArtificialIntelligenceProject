@@ -47,12 +47,16 @@ public class GeneticAlgorithm {
         List<Network> newPopulation = new ArrayList<>();
 
         Network bestDude = this.population.get(0);
+        newPopulation.add(new Network(bestDude));
         mutate(bestDude);
         newPopulation.add(bestDude); // Keep best car
         for (int i = 0; i < population.size(); i++) {
             for (int j = i+1; j < population.size(); j++) {
                 if (newPopulation.size() < (0.75+randomRate)*populationSize) {
                     crossBreed(population.get(i), population.get(j), newPopulation);
+                }
+                else {
+                    break;
                 }
             }
         }

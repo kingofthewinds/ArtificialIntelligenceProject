@@ -12,6 +12,12 @@ public class Network {
     private final Matrix weightsOutputLayer;
 
 
+    public Network(Network copy)
+    {
+        this.weightsHiddenLayer = new Matrix(copy.weightsHiddenLayer);
+        this.weightsOutputLayer = new Matrix(copy.weightsOutputLayer);
+    }
+
     public Network(Matrix weightsHiddenLayer, Matrix weightsOutputLayer) {
         this.weightsHiddenLayer = weightsHiddenLayer;
         this.weightsOutputLayer = weightsOutputLayer;
