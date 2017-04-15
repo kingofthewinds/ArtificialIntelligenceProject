@@ -35,9 +35,9 @@ public class GeneticAlgorithm {
     public List<Car> breedPopulation(List<Car> bestCars,int iteration) {
         System.out.println("Breeding");
         double randomRate = (double)iteration/100;
-        if (randomRate >= 0.25)
+        if (randomRate >= 0.20)
         {
-            randomRate = 0.25;
+            randomRate = 0.20;
         }
         population.clear();
         for (Car car : bestCars) {
