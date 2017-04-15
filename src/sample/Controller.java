@@ -91,8 +91,9 @@ public class Controller {
     private int ite = 1;
     public List<Car> cars;
     public List<Car> newcars;
-    double scale = 30;
-    int sizeCircuit = 20;
+    double scale = 40
+            ;
+    int sizeCircuit = 14;
     private int theBestScore = 0;
     private int bestPilot = 0;
     ArrayList<Wall> walls = new ArrayList<>();
