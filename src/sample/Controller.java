@@ -84,9 +84,9 @@ public class Controller {
     @FXML
     Label bestScore;
 
-    public int numberOfCars = 10;
-    int sizeCircuit = 5;
-    double scale = 70;
+    public int numberOfCars = 500;
+    int sizeCircuit = 14;
+    double scale = 40;
 
 
 
@@ -97,6 +97,7 @@ public class Controller {
     public List<Car> newcars;
     private int theBestScore = 0;
     private int bestPilot = 0;
+    private int numberOfCarAlive = 0;
     ArrayList<Wall> walls = new ArrayList<>();
 
 
@@ -236,12 +237,14 @@ public class Controller {
             public void run() {
                 while(true){
                     try {
+
                         Platform.runLater(() -> {
                             cars.get(0).setFill(Color.BLACK);
                             tick();
                             int death = 0;
                             int living = 0;
                             int score = 0;
+                            numberOfCarAlive = 0;
                             for(Car c : cars)
                             {
                                 if (c.isCrashed()){
@@ -249,6 +252,7 @@ public class Controller {
                                 }
                                 else {
                                     living++;
+                                    numberOfCarAlive ++;
                                 }
                                 score += c.score;
                                 if (score > theBestScore) {
@@ -285,15 +289,16 @@ public class Controller {
                                 bestPilot = cars.get(0).score;
                             }
                             cars.get(0).setFill(Color.GREEN);
-                        });
 
+                        });
                         time += tickDuration;
                         progressBar.setProgress((double)time/(duration*1000));
                         Thread.sleep(tickDuration);
 
-                        if (time >= duration*1000) {
+                        if (time >= duration*1000 || numberOfCarAlive == 0) {
                             break;
                         }
+
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
