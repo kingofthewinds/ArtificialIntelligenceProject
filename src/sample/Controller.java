@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Controller {
 
-    private int tickDuration = 10;
+    private int tickDuration = 1;
     private int duration = 10;
     public int circuitLength;
 
@@ -322,6 +322,11 @@ public class Controller {
     }
 
     private ArrayList<Car> calculateBestCars() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Collections.sort(this.cars, new Comparator<Car>() {
             @Override
             public int compare(Car o1, Car o2) {
