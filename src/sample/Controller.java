@@ -117,6 +117,7 @@ public class Controller {
     {
         spinner.getValueFactory().setValue(10);
         spinnerNumberOfCars.getValueFactory().setValue(numberOfCars);
+
         this.tickSliderLabel.setText("tick : \n" + this.tickDuration + " ms");
         tickSlider.setValue(tickDuration);
         tickSlider.valueProperty().addListener(new ChangeListener<Number>() {

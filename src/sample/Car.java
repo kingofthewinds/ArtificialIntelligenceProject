@@ -142,9 +142,6 @@ public class Car extends Circle {
         this.angle += angle;
         for (Sensor s : sensors)
         {
-            Rotate rotate = new Rotate(angle,s.getStartX(),s.getStartY());
-
-
             double xs = s.getEndX() - s.getStartX();
             double ys = s.getEndY() - s.getStartY();
 
