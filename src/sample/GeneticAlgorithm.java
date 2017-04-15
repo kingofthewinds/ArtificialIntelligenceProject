@@ -9,7 +9,7 @@ import java.util.List;
 public class GeneticAlgorithm {
 
     private List<Network> population;
-    private final int populationSize;
+    public  int populationSize;
     private final double scale;
     private final Controller controller;
     private static final double MUTATION_RATE = 0.15;
@@ -21,6 +21,8 @@ public class GeneticAlgorithm {
         this.scale = scale;
         this.controller = controller;
     }
+
+
 
     public static List<Car> generateNewPopulation(int nbrPopulation, double scale, Controller controller) {
         List<Car> cars= new ArrayList<>();

@@ -92,6 +92,9 @@ public class Controller {
     @FXML
     Label bestScore;
 
+    @FXML
+    Spinner spinnerNumberOfCars;
+
     public int numberOfCars = 500;
     int sizeCircuit = 14;
     double scale = 40;
@@ -329,6 +332,8 @@ public class Controller {
     }
 
     public void stopIteration() {
+        this.numberOfCars = (int)spinnerNumberOfCars.getValue();
+        genetic.populationSize = this.numberOfCars;
         this.newcars = genetic.breedPopulation(calculateBestCars(),ite);
         newIterationButton.setDisable(false);
         if (autorun.isSelected()) {
