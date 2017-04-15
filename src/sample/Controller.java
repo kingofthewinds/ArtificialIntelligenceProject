@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -17,7 +19,7 @@ import java.util.List;
 
 public class Controller {
 
-    private int tickDuration = 1;
+    private int tickDuration = 5;
     private int duration = 10;
     public int circuitLength;
 
@@ -26,6 +28,12 @@ public class Controller {
 
     @FXML
     ProgressBar progressBar;
+
+    @FXML
+    Slider tickSlider;
+
+    @FXML
+    Label tickSliderLabel;
 
     @FXML
     Pane circuitPanel;
@@ -105,6 +113,16 @@ public class Controller {
     private void initialize()
     {
         spinner.getValueFactory().setValue(10);
+        this.tickSliderLabel.setText("tick : \n" + this.tickDuration + " ms");
+        tickSlider.setValue(tickDuration);
+        tickSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                tickSliderLabel.setText("tick : \n" + newValue.intValue() + " ms");
+
+            }
+        });
+
         this.genetic = new GeneticAlgorithm(numberOfCars,scale,this);
         this.circuit = new Circuit(scale);
         drawCircuit();
@@ -361,6 +379,15 @@ public class Controller {
 
     }
 
+    @FXML
+    private void mouseClickedSlider(MouseEvent event)
+    {
+        Slider slider = (Slider)event.getSource();
+
+        this.tickDuration = (int)slider.getValue();
+        this.tickSliderLabel.setText("tick : \n" + this.tickDuration + " ms");
+
+    }
 
 
 

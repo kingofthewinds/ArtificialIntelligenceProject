@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
@@ -32,9 +33,18 @@
                </valueFactory>
             </Spinner>
             <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="34.0" />
-            <CheckBox fx:id="autorun" mnemonicParsing="false" prefHeight="32.0" prefWidth="131.0" selected="true" text="Auto run" />
-            <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="34.0" />
-            <CheckBox fx:id="showBars" mnemonicParsing="false" prefHeight="32.0" prefWidth="131.0" selected="true" text="Show Sensors" />
+            <VBox prefHeight="54.0" prefWidth="314.0">
+               <children>
+                  <HBox prefHeight="38.0" prefWidth="140.0">
+                     <children>
+                        <CheckBox fx:id="autorun" mnemonicParsing="false" prefHeight="32.0" prefWidth="131.0" selected="true" text="Auto run" />
+                        <CheckBox fx:id="showBars" mnemonicParsing="false" prefHeight="32.0" prefWidth="131.0" selected="true" text="Show Sensors" />
+                        <Label fx:id="tickSliderLabel" prefHeight="38.0" prefWidth="63.0" />
+                     </children>
+                  </HBox>
+                  <Slider fx:id="tickSlider" blockIncrement="1.0" max="15.0" min="1.0" minorTickCount="1" onMouseReleased="#mouseClickedSlider" prefHeight="16.0" prefWidth="242.0" />
+               </children>
+            </VBox>
             <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="34.0" />
             <VBox prefHeight="54.0" prefWidth="277.0">
                <children>
