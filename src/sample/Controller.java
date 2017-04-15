@@ -116,6 +116,7 @@ public class Controller {
     private void initialize()
     {
         spinner.getValueFactory().setValue(10);
+        spinnerNumberOfCars.getValueFactory().setValue(numberOfCars);
         this.tickSliderLabel.setText("tick : \n" + this.tickDuration + " ms");
         tickSlider.setValue(tickDuration);
         tickSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -332,7 +333,7 @@ public class Controller {
     }
 
     public void stopIteration() {
-        this.numberOfCars = (int)spinnerNumberOfCars.getValue();
+        this.numberOfCars = Integer.valueOf((int)spinnerNumberOfCars.getValue());
         genetic.populationSize = this.numberOfCars;
         this.newcars = genetic.breedPopulation(calculateBestCars(),ite);
         newIterationButton.setDisable(false);

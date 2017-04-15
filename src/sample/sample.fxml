@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <center>
@@ -21,17 +22,33 @@
    <bottom>
       <HBox prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="newIterationButton" mnemonicParsing="false" onAction="#mouseClickedNewIteration" prefHeight="34.0" prefWidth="131.0" text="New Iteration">
+            <Button fx:id="newIterationButton" mnemonicParsing="false" onAction="#mouseClickedNewIteration" prefHeight="44.0" prefWidth="116.0" text="New Iteration">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
             <Separator orientation="VERTICAL" prefHeight="34.0" prefWidth="32.0" />
-            <Spinner fx:id="spinner" editable="true" prefHeight="27.0" prefWidth="80.0">
-               <valueFactory>
-                  <SpinnerValueFactory.IntegerSpinnerValueFactory max="100" min="0" />
-               </valueFactory>
-            </Spinner>
+            <VBox prefHeight="59.0" prefWidth="116.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time" />
+                  <Spinner fx:id="spinner" editable="true" prefHeight="27.0" prefWidth="80.0">
+                     <valueFactory>
+                        <SpinnerValueFactory.IntegerSpinnerValueFactory max="100" min="0" />
+                     </valueFactory>
+                  </Spinner>
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="34.0" />
+            <VBox prefHeight="16.0" prefWidth="95.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of cars" />
+                  <Spinner fx:id="spinnerNumberOfCars" editable="true" prefHeight="27.0" prefWidth="80.0">
+                     <valueFactory>
+                        <SpinnerValueFactory.IntegerSpinnerValueFactory max="100" min="0" />
+                     </valueFactory>
+                  </Spinner>
+               </children>
+            </VBox>
             <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="34.0" />
             <VBox prefHeight="54.0" prefWidth="314.0">
                <children>
