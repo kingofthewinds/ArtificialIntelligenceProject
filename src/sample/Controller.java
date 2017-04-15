@@ -84,9 +84,9 @@ public class Controller {
     @FXML
     Label bestScore;
 
-    public int numberOfCars = 500;
-    int sizeCircuit = 14;
-    double scale = 40;
+    public int numberOfCars = 10;
+    int sizeCircuit = 5;
+    double scale = 70;
 
 
 
@@ -324,7 +324,11 @@ public class Controller {
             }
         });
 
-        return new ArrayList(this.cars.subList(0,(int)numberOfCars/20 + ite));
+        int numberCars = (int)numberOfCars/20 + ite;
+        if (numberCars > this.cars.size()){
+            numberCars = this.cars.size()-1;
+        }
+        return new ArrayList(this.cars.subList(0,numberCars));
     }
 
     private void tick() {
