@@ -94,9 +94,6 @@ public class Car extends Circle {
         forwardRight.sense(walls);
         left.sense(walls);
         right.sense(walls);
-
-
-
     }
 
     private boolean checkCrash() {
@@ -127,10 +124,7 @@ public class Car extends Circle {
 
         for (Sensor s : sensors)
         {
-            s.setStartX(s.getStartX()+dx);
-            s.setStartY(s.getStartY()+dy);
-            s.setEndX(s.getEndX()+dx);
-            s.setEndY(s.getEndY()+dy);
+            s.move(dx, dy);
         }
     }
 
@@ -142,14 +136,7 @@ public class Car extends Circle {
         this.angle += angle;
         for (Sensor s : sensors)
         {
-            double xs = s.getEndX() - s.getStartX();
-            double ys = s.getEndY() - s.getStartY();
-
-            double xPrim = xs*Math.cos(angle) - ys*Math.sin(angle);
-            double yPrim = xs*Math.sin(angle) + ys*Math.cos(angle);
-
-            s.setEndX(s.getStartX()+xPrim);
-            s.setEndY(s.getStartY()+yPrim);
+            s.turn(angle);
 
         }
         //System.out.println(this.angle);

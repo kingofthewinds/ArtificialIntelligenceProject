@@ -10,9 +10,14 @@ import java.util.ArrayList;
 public class Sensor extends Line {
     private double distance ;
 
+    private double endXReal, endYReal;
+
 
     public Sensor(double startX, double startY, double endX, double endY){
+
         super(startX,startY,endX,endY);
+        this.endXReal = endX;
+        this.endYReal = endY;
     }
 
     public static double[] lineIntersect(Line wall, Line sensor) {
@@ -41,9 +46,13 @@ public class Sensor extends Line {
 
     public double sense(ArrayList<Wall> walls)
     {
+        this.setEndX(this.endXReal);
+        this.setEndY(this.endYReal);
         double dist = 1000;
         double d;
         double[] intersectPoint;
+        double intersectX = 0;
+        double intersectY = 0;
         for (Wall w : walls)
         {
             if ((intersectPoint = lineIntersect(w,this)) != null)
@@ -51,12 +60,38 @@ public class Sensor extends Line {
                 d = Math.sqrt( Math.pow(intersectPoint[0]-this.getStartX(),2) + Math.pow(intersectPoint[1]-this.getStartY(),2));
                 if (d < dist)
                 {
+                    intersectX = intersectPoint[0];
+                    intersectY = intersectPoint[1];
                     dist = d;
                 }
             }
         }
+        this.endXReal = this.getEndX();
+        this.endYReal = this.getEndY();
+        if (intersectX != 0 && intersectY !=0) {
+            this.setEndX(intersectX);
+            this.setEndY(intersectY);
+        }
         this.distance = dist;
         return dist;
+    }
+
+    public void move(double dx, double dy) {
+        this.setStartX(this.getStartX()+dx);
+        this.setStartY(this.getStartY()+dy);
+        this.endXReal += dx;
+        this.endYReal += dy;
+    }
+
+    public void turn(double angle) {
+        double xs = this.endXReal - this.getStartX();
+        double ys = this.endYReal - this.getStartY();
+
+        double xPrim = xs*Math.cos(angle) - ys*Math.sin(angle);
+        double yPrim = xs*Math.sin(angle) + ys*Math.cos(angle);
+
+        this.endXReal = (this.getStartX()+xPrim);
+        this.endYReal = (this.getStartY()+yPrim);
     }
 
 
