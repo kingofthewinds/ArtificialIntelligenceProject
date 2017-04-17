@@ -1,150 +1,213 @@
 package sample;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.Stack;
+import java.util.*;
 
-/**
- * Created by kingwinds on 13/04/2017.
- */
+
 public class Maze {
-    private int n;                 // dimension of maze
-    private boolean[][] north;     // is there a wall to north of cell i, j
-    private boolean[][] east;
-    private boolean[][] south;
-    private boolean[][] west;
-    private boolean[][] visited;
-    private ArrayList<int[]> circuit = new ArrayList<>();
-    private boolean done = false;
+    int size;
+    boolean north[][];
+    boolean south[][];
+    boolean east[][];
+    boolean west[][];
+    boolean visited[][];
 
-    public Maze(int n) {
-        this.n = n;
-        init();
-        generate();
+    public Maze(int size) {
+        this.size = size;
     }
 
-    private void init() {
-        // initialize border cells as already visited
-        visited = new boolean[n+2][n+2];
-        for (int x = 0; x < n+2; x++) {
-            visited[x][0] = true;
-            visited[x][n+1] = true;
+    public ArrayList<int[]> getCircuit() {
+        initialize();
+        generate();
+        int[] path = solve();
+        for (int i=0; i<path.length; i++) {
+            path[i] += 1;
         }
-        for (int y = 0; y < n+2; y++) {
-            visited[0][y] = true;
-            visited[n+1][y] = true;
+        int[] boucle = closeCircuit();
+        int[] circuit = concatenate(path, boucle);
+
+        //Redefinition of x and y due to JavaFx convention (see in controller
+        ArrayList<int[]> finalCircuit = new ArrayList<>();
+        for (int i=0; i<circuit.length; i+=2) {
+            finalCircuit.add(new int[] {circuit[i+1],circuit[i]});
         }
+        return finalCircuit;
+    }
 
-
+    private void initialize(){
         // initialze all walls as present
-        north = new boolean[n+2][n+2];
-        east  = new boolean[n+2][n+2];
-        south = new boolean[n+2][n+2];
-        west  = new boolean[n+2][n+2];
-        for (int x = 0; x < n+2; x++) {
-            for (int y = 0; y < n+2; y++) {
+        north = new boolean[size][size];
+        east  = new boolean[size][size];
+        south = new boolean[size][size];
+        west  = new boolean[size][size];
+
+        visited = new boolean[size][size];
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
                 north[x][y] = true;
                 east[x][y]  = true;
                 south[x][y] = true;
                 west[x][y]  = true;
-            }
-        }
-    }
-
-
-    // generate the maze
-    private void generate(int x, int y) {
-        visited[x][y] = true;
-
-        // while there is an unvisited neighbor
-        while (!visited[x][y+1] || !visited[x+1][y] || !visited[x][y-1] || !visited[x-1][y]) {
-
-            // pick random neighbor (could use Knuth's trick instead)
-            while (true) {
-                Random random = new Random();
-                int r = random.nextInt(4);
-                if (r == 0 && !visited[x][y+1]) {
-                    north[x][y] = false;
-                    south[x][y+1] = false;
-                    generate(x, y + 1);
-                    break;
-                }
-                else if (r == 1 && !visited[x+1][y]) {
-                    east[x][y] = false;
-                    west[x+1][y] = false;
-                    generate(x+1, y);
-                    break;
-                }
-                else if (r == 2 && !visited[x][y-1]) {
-                    south[x][y] = false;
-                    north[x][y-1] = false;
-                    generate(x, y-1);
-                    break;
-                }
-                else if (r == 3 && !visited[x-1][y]) {
-                    west[x][y] = false;
-                    east[x-1][y] = false;
-                    generate(x-1, y);
-                    break;
-                }
-            }
-        }
-    }
-
-
-    // solve the maze using depth-first search
-    private void solve(int x, int y) {
-        if (x == 0 || y == 0 || x == n+1 || y == n+1) return;
-        if (done || visited[x][y]) return;
-        visited[x][y] = true;
-
-        circuit.add(new int[]{x,y});
-
-        // reached middle
-        if (x == n && y == n) done = true;
-
-        if (!north[x][y]) solve(x, y + 1);
-        if (!east[x][y])  solve(x + 1, y);
-        if (!south[x][y]) solve(x, y - 1);
-        if (!west[x][y])  solve(x - 1, y);
-
-        if (done) return;
-
-
-        for (Iterator<int[]> iterator = circuit.iterator(); iterator.hasNext();) {
-            int[] test = iterator.next();
-            if (test[0] == x && test[1] == y) {
-                iterator.remove();
-            }
-        }
-
-
-    }
-
-    // solve the maze starting from the start state
-    public ArrayList<int[]> getCircuit() {
-        for (int x = 1; x <= n; x++)
-            for (int y = 1; y <= n; y++)
                 visited[x][y] = false;
-        done = false;
-        circuit.clear();
-        solve(1, 1);
-
-
-        for (int i = n ; i >= 0 ; i--)
-        {
-            circuit.add(new int[]{n+1,i});
+            }
         }
-        for (int i = n ; i >= 1 ; i--)
-        {
-            circuit.add(new int[]{i,0});
-        }
-
-        return circuit;
     }
 
-    // generate the maze starting from lower left
-    private void generate() {
-        generate(1, 1);
+    private void generate(){
+        Stack<int[]> stack = new Stack<int[]>();
+        int x = 0;
+        int y = 0;
+        stack.push(new int[]{x,y});
+        while (!stack.isEmpty()) {
+            visited[x][y] = true;
+            ArrayList<Integer> check = new ArrayList<>();
+            if (x>0 && !visited[x-1][y]) {
+                check.add(1);					//1 = move left;
+            }
+            if (y>0 && !visited[x][y-1]) {
+                check.add(2);					//2 = move up;
+            }
+            if (x<size-1 && !visited[x+1][y]) {
+                check.add(3);					//3 = move right;
+            }
+            if (y<size-1 && !visited[x][y+1]) {
+                check.add(4);					//4 = move down;
+            }
+
+            if (check.size()>0) {
+                stack.push(new int[] {x,y});
+                Random r = new Random();
+                int value = r.nextInt(check.size());
+                int direction = check.get(value);
+                if (direction == 1) {
+                    //1 = move left;
+                    west[x][y] = false;
+                    x = x-1;
+                    east[x][y] = false;
+                }
+                if (direction == 2) {
+                    //2 = move up;
+                    north[x][y] = false;
+                    y = y-1;
+                    south[x][y] = false;
+                }
+                if (direction == 3) {
+                    //3 = move right;
+                    east[x][y] = false;
+                    x = x+1;
+                    west[x][y] = false;
+                }
+                if (direction == 4) {
+                    //4 = move down;
+                    south[x][y] = false;
+                    y = y+1;
+                    north[x][y] = false;
+                }
+
+            }
+            else {
+                //If there are no valid cells to move to.
+                //retrace one step back in history if no move is possible
+                int[] v = stack.pop();
+                x = v[0];
+                y = v[1];
+            }
+        }
+        //Open the walls at the start and finish
+        north[0][0] = false;
+        east[size-1][size-1] = false;
     }
+
+    private int[] solve(){
+        reinitializeVisitedGrid();
+        int x = 0;
+        int y = 0;
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[] {x,y});
+		/*queue.add(new int[]{1,2});
+		queue.add(new int[]{3,4});
+		queue.add(new int[]{5,6});
+		queue.add(new int[]{7,8});
+		int[] v = queue.poll();
+		System.out.println(v[0] + " "+ v[1]);
+		v = queue.poll();
+		v = concatenate(v , new int[] {2,3});
+		System.out.println(v[0] + " "+ v[1]+ " " + v[2] + " "+ v[3]);
+		*/
+        while (!queue.isEmpty()) {
+            int[] path = queue.poll();
+            int sizePath = path.length;
+            x = path[sizePath-2];
+            y = path[sizePath-1];
+
+            if (x == this.size-1 && y == this.size-1) {
+                return path;
+            }
+            visited[x][y] = true;
+            ArrayList<Integer> check = new ArrayList<>();
+            if (x>0 && !visited[x-1][y] && !west[x][y]) {
+                check.add(1);					//1 = can move left;
+            }
+            if (y>0 && !visited[x][y-1] && !north[x][y]) {
+                check.add(2);					//2 = can move up;
+            }
+            if (x<size-1 && !visited[x+1][y] && !east[x][y]) {
+                check.add(3);					//3 = can move right;
+            }
+            if (y<size-1 && !visited[x][y+1] && !south[x][y]) {
+                check.add(4);					//4 = can move down;
+            }
+            for (Integer i : check) {
+                if (i == 1) {
+                    queue.add(concatenate(path, new int[] {x-1,y}));
+                }
+                else if (i == 2) {
+                    queue.add(concatenate(path, new int[] {x,y-1}));
+                }
+                else if (i == 3) {
+                    queue.add(concatenate(path, new int[] {x+1,y}));
+                }
+                else if (i == 4) {
+                    queue.add(concatenate(path, new int[] {x,y+1}));
+                }
+
+            }
+        }
+        return null;
+    }
+
+    private int[] concatenate(int[] a, int[] b) {
+        int[] c = new int[a.length + b.length];
+        int i = 0;
+        for (int x : a) { c[i] = x; i ++; }
+        for (int x : b) { c[i] = x; i ++; }
+        return c;
+    }
+
+    private void reinitializeVisitedGrid() {
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                visited[x][y] = false;
+            }
+        }
+    }
+
+
+    private int[] closeCircuit() {
+        int close[] = new int[4*size + 2];
+        int n = 0;
+        for (int i = size; i>=0; i--) {
+            close[n] = i;
+            close[n+1] = this.size+1;
+            n+=2;
+        }
+        for (int i = size; i>=1; i--) {
+            close[n] = 0;
+            close[n+1] =i;
+            n+=2;
+        }
+        return close;
+    }
+
+
 }
