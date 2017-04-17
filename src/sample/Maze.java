@@ -5,12 +5,12 @@ import java.util.*;
 
 
 public class Maze {
-    int size;
-    boolean north[][];
-    boolean south[][];
-    boolean east[][];
-    boolean west[][];
-    boolean visited[][];
+    private int size;
+    private boolean north[][];
+    private boolean south[][];
+    private boolean east[][];
+    private boolean west[][];
+    private boolean visited[][];
 
     public Maze(int size) {
         this.size = size;

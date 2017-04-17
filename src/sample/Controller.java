@@ -293,7 +293,7 @@ public class Controller {
                             });
                             iteration.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
                             iteration.setText("Iteration : " + ite);
-                            car1.setText("Pilot n°1 : " + cars.get(0).score + "\navg speed : " + (int)(100*cars.get(0).getAverageSpeed(time)) + "\n");
+                            car1.setText("Pilot n°1 : " + cars.get(0).score + "\navg speed : " + (double)((int)(1000*cars.get(0).getAverageSpeed(time)))/10 + "\n");
                             car2.setText("Pilot n°2 : " + cars.get(1).score);
                             car3.setText("Pilot n°3 : " + cars.get(2).score);
                             car4.setText("Pilot n°4 : " + cars.get(3).score);
