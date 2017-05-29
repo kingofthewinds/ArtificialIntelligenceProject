@@ -19,8 +19,9 @@ import java.util.List;
 
 public class Controller {
 
-    private int tickDuration = 5;
-    private int duration = 10;
+    private int tickDuration = 2;
+    private int duration = 4;
+    public int numberOfCars = 400;
     public int circuitLength;
 
     @FXML
@@ -95,7 +96,6 @@ public class Controller {
     @FXML
     Spinner spinnerNumberOfCars;
 
-    public int numberOfCars = 500;
     int sizeCircuit = 14;
     double scale = 40;
 
@@ -115,7 +115,7 @@ public class Controller {
     @FXML
     private void initialize()
     {
-        spinner.getValueFactory().setValue(10);
+        spinner.getValueFactory().setValue(duration);
         spinnerNumberOfCars.getValueFactory().setValue(numberOfCars);
 
         this.tickSliderLabel.setText("tick : \n" + this.tickDuration + " ms");
@@ -253,9 +253,12 @@ public class Controller {
             }
         }
 
+
         new Thread(new Runnable() {
 
             int time = 0; // in milli seconds
+            int accelerationtime;
+            int eccelerationscore  = 0;
             @Override
             public void run() {
                 while(true){
@@ -308,6 +311,12 @@ public class Controller {
                             bestScore.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
                             bestScore.setText("Best score : \n" + theBestScore + "\nBest Pilot : " + bestPilot);
 
+                            if (bestPilot > 250)
+                            {
+                                System.out.println("best score = " + bestPilot + " in " + ite +" iterations");
+                                System.exit(0);
+                            }
+
                             if (cars.get(0).score > bestPilot) {
                                 bestPilot = cars.get(0).score;
                             }
@@ -315,12 +324,33 @@ public class Controller {
 
                         });
                         time += tickDuration;
+                        accelerationtime += tickDuration;
                         progressBar.setProgress((double)time/(duration*1000));
                         Thread.sleep(tickDuration);
 
                         if (time >= duration*1000 || numberOfCarAlive == 0) {
                             break;
                         }
+
+
+                        if (accelerationtime >= 2500)
+                        {
+                            accelerationtime = 0;
+                            int scoreuptonow = 0;
+                            for(Car c : cars)
+                            {
+                                scoreuptonow += c.score;
+                            }
+                            if (scoreuptonow == eccelerationscore)
+                            {
+                                break;
+
+                            }else
+                            {
+                                eccelerationscore = scoreuptonow;
+                            }
+                        }
+
 
 
                     } catch (InterruptedException e) {
@@ -363,7 +393,7 @@ public class Controller {
         if (numberCars > this.cars.size()){
             numberCars = this.cars.size()-1;
         }
-        return new ArrayList(this.cars.subList(0,numberCars));
+        return new ArrayList(this.cars.subList(0,numberCars));//
     }
 
     private void tick() {
